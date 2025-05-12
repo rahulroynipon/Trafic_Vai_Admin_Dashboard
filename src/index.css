@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --font-primary: "Poppins";
+  --font-secondary: "Roboto";
+
+  /* color */
+  --color-primary: #063137;
+  --color-primary-content-100: #ffffff;
+  --color-primary-content-200: #f0f3f4;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f6f6f6;
+
+  --color-base-content-100: #010101;
+  --color-base-content-200: #171717;
+
+  /* text size */
+  --text-display-1: 48px;
+  --text-display-2: 42px;
+  --text-display-3: 32px;
+  --text-heading-1: 28px;
+  --text-heading-2: 22px;
+  --text-heading-3: 18px;
+  --text-heading-4: 14px;
+  --text-body-1: 18px;
+  --text-body-2: 16px;
+  --text-body-3: 14px;
+  --text-description-1: 12px;
+  --text-description-2: 11px;
+  --text-description-3: 10px;
+
+  /* shadow */
+  --shadow-custom-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-custom-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-custom-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-custom-lg: 0 6px 10px rgba(0, 0, 0, 0.15);
+  --shadow-custom-xl: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+  background-color: var(--color-base-100);
+  color: var(--color-base-content-100);
+}
