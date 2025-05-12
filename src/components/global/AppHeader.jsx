@@ -7,9 +7,9 @@ function AppHeader({ toggleFn }) {
   const isMobile = useMobile();
 
   return (
-    <div className="text-primary-content w-full flex items-center justify-between">
+    <div className="text-primary-content w-full flex items-center justify-between space-x-2">
       {isMobile ? (
-        <buttom onClick={toggleFn} className="text-2xl">
+        <buttom onClick={toggleFn} className="text-2xl cursor-pointer">
           <FiMenu />
         </buttom>
       ) : (

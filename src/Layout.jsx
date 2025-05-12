@@ -1,10 +1,11 @@
 import { Outlet } from "react-router";
 import AppHeader from "./components/global/AppHeader";
 import SideNavBar from "./components/global/SideNavBar";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import useMobile from "./lib/useMobile";
 import { cn } from "./lib/utils";
 import Overlay from "./components/ui/Overlay";
+import AppLoader from "./components/global/AppLoader";
 
 function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,8 +43,14 @@ function Layout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto p-6">
+          <Suspense
+            Outlet={
+              <AppLoader className="h-full relative -top-24 md:-top-12" />
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>
