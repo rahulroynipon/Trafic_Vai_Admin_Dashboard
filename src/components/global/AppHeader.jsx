@@ -2,9 +2,11 @@ import { FiMenu } from "react-icons/fi";
 import { IoMdNotifications } from "react-icons/io";
 import useMobile from "../../lib/useMobile";
 import emoji from "../../assets/emoji.svg";
+import useAuthStore from "../../store/authStore";
 
 function AppHeader({ toggleFn }) {
   const isMobile = useMobile();
+  const { user } = useAuthStore();
 
   return (
     <div className="text-primary-content w-full flex items-center justify-between space-x-2">
@@ -15,7 +17,7 @@ function AppHeader({ toggleFn }) {
       ) : (
         <div>
           <h1 className="flex items-center text-lg font-semibold space-x-2">
-            <span> Welcome Back Rahul Roy Nipon </span>
+            <span> Welcome Back {user?.fullname} </span>
             <span>
               <img src={emoji} alt="avatar-emoji" className="h-7" />
             </span>
@@ -33,7 +35,13 @@ function AppHeader({ toggleFn }) {
         >
           <IoMdNotifications />
         </button>
-        <div className="size-8 rounded-full overflow-hidden bg-base-100"></div>
+        <div className="size-8 rounded-full ring-2 ring-content-400/70 overflow-hidden bg-base-100">
+          <img
+            src={user?.avatar?.url}
+            alt="avatar"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
     </div>
   );

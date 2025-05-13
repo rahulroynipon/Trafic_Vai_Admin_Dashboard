@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Layout from "./Layout";
-import { Suspense, lazy } from "react";
-import AppLoader from "./components/global/AppLoader";
+import { lazy, useEffect } from "react";
+import { Toaster } from "sonner";
+import useAuthStore from "./store/authStore";
 
 // 🔁 Dynamically import pages
 const Manager = lazy(() => import("./pages/Manager"));
@@ -14,8 +15,15 @@ const Message = lazy(() => import("./pages/Message"));
 const Blogs = lazy(() => import("./pages/Blogs"));
 
 function App() {
+  const { getUserHandler } = useAuthStore();
+
+  useEffect(() => {
+    getUserHandler();
+  }, []);
+
   return (
     <BrowserRouter>
+      <Toaster richColors position="top-right" />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<p>Dashboard</p>} />

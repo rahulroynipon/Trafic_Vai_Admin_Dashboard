@@ -4,7 +4,6 @@ import { cn } from "../../lib/utils";
 import logo from "../../assets/logo.svg";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import useAuthStore from "./../../store/authStore";
-import { useEffect } from "react";
 
 function SideNavBar() {
   const { logoutHandler } = useAuthStore();

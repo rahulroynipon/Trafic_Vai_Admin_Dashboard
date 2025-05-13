@@ -1,8 +1,12 @@
+import AddManager from "../components/Manager/AddManager";
+import { Table, TableHeader } from "../components/ui/Table";
+
 function Manager() {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 bg-base-100 shadow-sm"></div>
-    </div>
+    <>
+      <AddManager />
+      <Table headers={["Manager ID", "Name", "Email", "Password", "Action"]} />
+    </>
   );
 }
 

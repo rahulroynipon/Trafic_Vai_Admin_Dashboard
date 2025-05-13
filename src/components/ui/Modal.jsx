@@ -22,12 +22,12 @@ export default function Modal({ children, onClose, isOpen, title = "" }) {
 
           <motion.div
             variants={modalVariants}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             className="relative z-10 bg-white p-5 rounded shadow-lg min-w-xs max-w-[30rem] w-full m-4"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h1 className="text-lg font-semibold italic">{title}</h1>
+              <h1 className="text-lg font-semibold">{title}</h1>
               <button
                 onClick={onClose}
                 className="size-8 flex items-center justify-center rounded-full p-1 
