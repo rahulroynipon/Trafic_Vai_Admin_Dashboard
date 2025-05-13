@@ -27,7 +27,9 @@ export default function Modal({ children, onClose, isOpen, title = "" }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h1 className="text-lg font-semibold">{title}</h1>
+              <h1 className="text-lg font-semibold text-content-300">
+                {title}
+              </h1>
               <button
                 onClick={onClose}
                 className="size-8 flex items-center justify-center rounded-full p-1 

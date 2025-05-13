@@ -4,6 +4,7 @@ import { cn } from "../../lib/utils";
 import logo from "../../assets/logo.svg";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import useAuthStore from "./../../store/authStore";
+import ActiveLink from "../ui/ActiveLink";
 
 function SideNavBar() {
   const { logoutHandler } = useAuthStore();
@@ -22,20 +23,14 @@ function SideNavBar() {
         <ul className="space-y-1 px-2">
           {navItems.map(({ name, link, icon }) => (
             <li key={name}>
-              <NavLink
+              <ActiveLink
                 to={link}
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center space-x-3.5 rounded-md px-4 py-3 transition-colors focus:outline-none focus-visible:border focus-visible:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary/30",
-                    isActive
-                      ? "bg-primary text-white"
-                      : "text-content-300 hover:bg-base-200"
-                  )
-                }
+                className="text-content-300 hover:bg-base-200 flex items-center space-x-3.5 rounded-md px-4 py-3 transition-colors focus:outline-none focus-visible:border focus-visible:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary/30"
+                activeClassName="bg-primary text-white hover:bg-primary"
               >
                 <span>{icon}</span>
                 <span className="text-nowrap">{name}</span>
-              </NavLink>
+              </ActiveLink>
             </li>
           ))}
         </ul>

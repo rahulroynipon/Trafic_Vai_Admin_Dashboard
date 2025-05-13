@@ -16,7 +16,7 @@ const Table = ({
         style={{ maxHeight: height }}
         className="absolute top-full left-0 w-full z-0 overflow-auto shadow-sm bg-base-100"
       >
-        <table className="w-full table-auto border-separate border-spacing-0">
+        <table className="w-full table-auto ">
           {headers.length > 0 && (
             <thead className=" bg-primary/10 capitalize sticky top-0 z-10">
               <tr>

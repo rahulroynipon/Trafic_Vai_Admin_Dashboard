@@ -28,6 +28,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<p>Dashboard</p>} />
           <Route path="/manager" element={<Manager />} />
+          <Route path="/manager/:id" element={<p>Rahul</p>} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/services" element={<Services />} />
