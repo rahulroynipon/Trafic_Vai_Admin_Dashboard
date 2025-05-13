@@ -3,8 +3,12 @@ import navItems from "../../data/navItems";
 import { cn } from "../../lib/utils";
 import logo from "../../assets/logo.svg";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import useAuthStore from "./../../store/authStore";
+import { useEffect } from "react";
 
 function SideNavBar() {
+  const { logoutHandler } = useAuthStore();
+
   return (
     <div className="h-full flex flex-col py-6 px-4 bg-base-100">
       {/* Logo */}
@@ -40,6 +44,8 @@ function SideNavBar() {
 
       {/* Logout Button */}
       <button
+        onClick={logoutHandler}
+        type="button"
         className="mt-6 mx-2 cursor-pointer flex items-center space-x-3.5 rounded-md px-4 py-3 transition-colors focus:outline-none focus-visible:border focus-visible:border-primary/50 
       focus-visible:ring-2 focus-visible:ring-primary/30 text-content-300 bg-base-300 hover:bg-red-100 hover:text-red-600"
       >

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import updateState from "./../lib/updateState";
 
 const initialState = {
   user: false,
@@ -12,7 +13,12 @@ const useAuthStore = create((set) => ({
   isError: { ...initialState },
 
   setUser: (user) => set({ user }),
-  setLogout: (logout) => set({ logout }),
+  logoutHandler: () => {
+    updateState(set, "logout", { loading: true, error: false, success: false });
+    localStorage.removeItem("token");
+    set({ user: {} });
+    updateState(set, "logout", { loading: false, error: false, success: true });
+  },
 }));
 
 export default useAuthStore;
