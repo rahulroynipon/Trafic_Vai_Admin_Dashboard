@@ -58,7 +58,7 @@ function Layout() {
           <main className="flex-1">
             <Suspense
               Outlet={
-                <AppLoader className="h-full relative -top-24 md:-top-12" />
+                <AppLoader outerClass="h-full relative -top-24 md:-top-12" />
               }
             >
               <Outlet />

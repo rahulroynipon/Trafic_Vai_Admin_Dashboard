@@ -1,3 +1,5 @@
+import AppLoader from "./../global/AppLoader";
+
 const Table = ({
   headers = [],
   data = [],
@@ -35,9 +37,9 @@ const Table = ({
               <tr>
                 <td
                   colSpan={headers.length || 1}
-                  className="text-center italic text-content-400 p-6"
+                  className="text-center  italic text-content-400 p-6"
                 >
-                  Loading...
+                  <AppLoader className="size-8 border-2" />
                 </td>
               </tr>
             )}
@@ -67,7 +69,7 @@ const Table = ({
 
 const TableHeader = ({ title = "Title", children }) => {
   return (
-    <div className="bg-base-100 p-4 shadow-sm flex flex-wrap items-center justify-between space-x-3">
+    <div className="bg-base-100 p-4 shadow-sm flex flex-wrap items-center justify-between space-x-3 space-y-2">
       <h1 className="text-2xl font-semibold text-content-200">{title}</h1>
       <div>{children}</div>
     </div>

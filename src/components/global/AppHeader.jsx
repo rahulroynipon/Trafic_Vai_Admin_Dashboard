@@ -3,6 +3,7 @@ import { IoMdNotifications } from "react-icons/io";
 import useMobile from "../../lib/useMobile";
 import emoji from "../../assets/emoji.svg";
 import useAuthStore from "../../store/authStore";
+import avatarPlaceholder from "../../assets/avatar-placeholder.png";
 
 function AppHeader({ toggleFn }) {
   const isMobile = useMobile();
@@ -37,7 +38,7 @@ function AppHeader({ toggleFn }) {
         </button>
         <div className="size-8 rounded-full ring-2 ring-content-400/70 overflow-hidden bg-base-100">
           <img
-            src={user?.avatar?.url}
+            src={user?.avatar?.url || avatarPlaceholder}
             alt="avatar"
             className="w-full h-full object-cover"
           />

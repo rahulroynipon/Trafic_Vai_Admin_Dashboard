@@ -1,11 +1,11 @@
 import AddManager from "../components/Manager/AddManager";
-import { Table, TableHeader } from "../components/ui/Table";
+import ManagerTable from "../components/Manager/ManagerTable";
 
 function Manager() {
   return (
     <>
       <AddManager />
-      <Table headers={["Manager ID", "Name", "Email", "Password", "Action"]} />
+      <ManagerTable />
     </>
   );
 }
