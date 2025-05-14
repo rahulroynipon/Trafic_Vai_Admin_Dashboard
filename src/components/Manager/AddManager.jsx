@@ -70,7 +70,7 @@ function AddManager() {
               <InputField
                 name="password"
                 label="Password"
-                placeholder="Enter your password "
+                placeholder="Enter your password"
                 required
               />
 
@@ -78,7 +78,6 @@ function AddManager() {
                 name="permissions"
                 label="Permissions"
                 options={permessionOptions}
-                required
               />
 
               <div>

@@ -18,8 +18,8 @@ const Table = ({
       >
         <table className="w-full table-auto ">
           {headers.length > 0 && (
-            <thead className=" bg-primary/10 capitalize sticky top-0 z-10">
-              <tr>
+            <thead className="bg-base-100 capitalize sticky top-0 z-10">
+              <tr className="bg-primary/10 ">
                 {headers.map((header) => (
                   <th
                     key={header}

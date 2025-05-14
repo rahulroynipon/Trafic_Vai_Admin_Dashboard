@@ -32,11 +32,11 @@ export default function ImageInputField({
   }, [preview]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex  items-center flex-col w-full">
       {label && (
         <label
           htmlFor={name}
-          className="font-medium mb-1 text-sm text-gray-700"
+          className="font-semibold self-start mb-1 text-sm text-content-200"
         >
           {label}
         </label>
@@ -45,38 +45,36 @@ export default function ImageInputField({
       {preview ? (
         <div
           className={cn(
-            "mt-2 w-full h-36 p-5 flex justify-center items-center border border-gray-300 rounded-md",
+            "relative mt-2 w-36 h-36 border border-primary/30 ring-2 ring-primary/20 rounded-md overflow-hidden",
             className
           )}
         >
-          <div className="relative h-full ">
-            <img
-              src={preview}
-              alt="Preview"
-              className="object-contain h-full w-full max-h-full max-w-full rounded-md"
-            />
-            <button
-              type="button"
-              onClick={handleRemove}
-              aria-label="Remove image"
-              className="absolute -top-2 -right-2 cursor-pointer flex items-center justify-center rounded-full bg-red-600 text-white p-1 hover:bg-red-700"
-            >
-              <IoCloseSharp className="text-base" />
-            </button>
-          </div>
+          <img
+            src={preview}
+            alt="Preview"
+            className="object-cover w-full h-full"
+          />
+          <button
+            type="button"
+            onClick={handleRemove}
+            aria-label="Remove image"
+            className="absolute top-1 right-1 cursor-pointer flex items-center justify-center rounded-full bg-red-600 text-white p-1 hover:bg-red-700"
+          >
+            <IoCloseSharp className="text-sm" />
+          </button>
         </div>
       ) : (
         <>
-          <label htmlFor={name} className="cursor-pointer">
+          <label htmlFor={name} className="cursor-pointer mt-2">
             <div
               className={cn(
-                "h-36 border text-gray-500 border-gray-300 rounded-md flex flex-col items-center justify-center ",
+                "w-36 h-36 border border-dashed border-content-400/70 rounded-md flex flex-col items-center justify-center text-content-400/85 hover:border-primary hover:text-primary transition",
                 className
               )}
             >
-              <IoCloudUpload className="text-2xl" />
-              <p className="text-xs leading-tight text-center ">
-                Upload Image <br /> insert image from media library
+              <IoCloudUpload className="text-2xl mb-1" />
+              <p className="text-xs text-center leading-tight px-2">
+                Upload Image
               </p>
             </div>
           </label>
@@ -95,7 +93,7 @@ export default function ImageInputField({
       <ErrorMessage
         name={name}
         component="div"
-        className="text-red-700 text-sm mt-1.5"
+        className="text-red-700 text-sm mt-2"
       />
     </div>
   );
