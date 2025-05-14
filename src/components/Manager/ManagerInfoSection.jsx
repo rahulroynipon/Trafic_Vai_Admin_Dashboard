@@ -25,7 +25,7 @@ function ManagerInfoSection() {
   const initialValues = {
     fullname: profile?.fullname || "",
     email: profile?.email || "",
-    password: profile?.__row__password || "",
+    password: profile?.__raw__password || "",
   };
 
   const handleSubmit = (values) => {
