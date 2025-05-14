@@ -2,13 +2,16 @@ import useManagerStore from "../../store/managerStore";
 import Button from "../ui/Button";
 import { FaUserPen } from "react-icons/fa6";
 import Skeleton from "../ui/Skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { managerInfoSchema as validationSchema } from "../../schema/manager.schema";
 import InputField from "./../ui/InputField";
+import { useParams } from "react-router";
 
 function ManagerInfoSection() {
-  const { profile, isLoading } = useManagerStore();
+  const { id } = useParams();
+  const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
+    useManagerStore();
   const [isEdit, setIsEdit] = useState(false);
 
   const onEdit = () => {
@@ -26,8 +29,15 @@ function ManagerInfoSection() {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
+    if (isLoading.info) return;
+    updateManagerProfileHandler("info", id, values);
   };
+
+  useEffect(() => {
+    if (isSuccess.info) {
+      onClose();
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -96,8 +106,8 @@ function ManagerInfoSection() {
                       <Button
                         type="submit"
                         className=" mt-2.5"
-                        disabled={isLoading.updateInfo}
-                        isLoading={isLoading.updateInfo}
+                        disabled={isLoading.info}
+                        isLoading={isLoading.info}
                       >
                         Save
                       </Button>
@@ -138,7 +148,7 @@ function ManagerInfoSection() {
                     Password:
                   </span>
                   <span className="italic  text-content-300">
-                    {profile?.__row__password}
+                    {profile?.__raw__password}
                   </span>
                 </li>
               </ul>

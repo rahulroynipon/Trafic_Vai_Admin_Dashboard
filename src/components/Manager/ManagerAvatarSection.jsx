@@ -2,18 +2,21 @@ import useManagerStore from "../../store/managerStore";
 import avatarPlaceholder from "../../assets/avatar-placeholder.jpg";
 import Button from "../ui/Button";
 import Skeleton from "../ui/Skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../ui/Modal";
 import { Form, Formik } from "formik";
 import { managerAvatarSchema as validationSchema } from "../../schema/manager.schema";
 import ImageInputField from "./../ui/ImageInputField";
+import { useParams } from "react-router";
 
 function ManagerAvatarSection() {
+  const { id } = useParams();
   const initialValues = {
     avatar: null,
   };
 
-  const { profile, isLoading } = useManagerStore();
+  const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
+    useManagerStore();
   const [isOpen, setIsopen] = useState(false);
 
   const onOpen = () => {
@@ -25,8 +28,15 @@ function ManagerAvatarSection() {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
+    if (isLoading.avatar) return;
+    updateManagerProfileHandler("avatar", id, values);
   };
+
+  useEffect(() => {
+    if (isSuccess.avatar) {
+      onClose();
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -88,7 +98,14 @@ function ManagerAvatarSection() {
             <Form className="space-y-4 mt-5">
               <ImageInputField name="avatar" />
 
-              <Button className="w-full">Update</Button>
+              <Button
+                type="submit"
+                className="w-full"
+                isLoading={isLoading.avatar}
+                disabled={isLoading.avatar}
+              >
+                Update
+              </Button>
             </Form>
           )}
         </Formik>

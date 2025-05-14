@@ -57,7 +57,7 @@ function ManagerTable() {
         <td className="p-4 text-nowrap">{manager.fullname}</td>
         <td className="p-4 text-nowrap">{manager.email}</td>
         <td className="p-4 text-nowrap">
-          {isShow ? manager.__row__password : "••••••••"}
+          {isShow ? manager.__raw__password : "••••••••"}
         </td>
         <td className="p-4 text-nowrap flex space-x-1">
           <Button

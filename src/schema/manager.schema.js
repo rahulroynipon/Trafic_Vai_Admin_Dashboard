@@ -38,7 +38,7 @@ export const managerInfoSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-export const managerDeleteSchema = Yup.object().shape({
+export const managerPermissionsSchema = Yup.object().shape({
   permissions: Yup.array().of(
     Yup.string().required("Permission value cannot be empty")
   ),

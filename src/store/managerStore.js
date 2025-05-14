@@ -6,12 +6,15 @@ import { toast } from "sonner";
 const initialState = {
   create: false,
   get: false,
-  update: false,
   delete: false,
   profileGet: false,
+
+  avatar: false,
+  info: false,
+  permissions: false,
 };
 
-const useManagerStore = create((set) => ({
+const useManagerStore = create((set, get) => ({
   managers: [],
   profile: {},
   isLoading: { ...initialState },
@@ -107,6 +110,65 @@ const useManagerStore = create((set) => ({
         success: false,
       });
       toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  },
+
+  updateManagerProfileHandler: async (update, id, data) => {
+    updateState(set, update, {
+      loading: true,
+      error: false,
+      success: false,
+    });
+
+    try {
+      const res = await apiInstance.patch(
+        `/user/manager/${id}?update=${update}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const updatedProfile = res?.data?.payload;
+
+      if (res.status === 200 && updatedProfile) {
+        set({ profile: updatedProfile });
+
+        updateState(set, update, {
+          loading: false,
+          error: false,
+          success: true,
+        });
+
+        if (update === "info") {
+          const managers = get().managers || [];
+          if (managers.length) {
+            set((state) => ({
+              managers: state.managers.map((m) =>
+                m._id === id ? updatedProfile : m
+              ),
+            }));
+          }
+        }
+
+        toast.success(res?.data?.message || "Manager updated successfully");
+      } else {
+        throw new Error("Unexpected server response");
+      }
+    } catch (error) {
+      updateState(set, update, {
+        loading: false,
+        error: true,
+        success: false,
+      });
+
+      toast.error(
+        error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong"
+      );
     }
   },
 }));

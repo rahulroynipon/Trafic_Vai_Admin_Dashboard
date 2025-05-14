@@ -1,15 +1,18 @@
 import useManagerStore from "../../store/managerStore";
 import Skeleton from "../ui/Skeleton";
 import permessionOptions from "../../data/Permissions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
-import { managerInfoSchema as validationSchema } from "../../schema/manager.schema";
+import { managerPermissionsSchema as validationSchema } from "../../schema/manager.schema";
 import { MdEditSquare } from "react-icons/md";
 import Button from "../ui/Button";
 import CheckboxGroupField from "../ui/CheckboxGroupField";
+import { useParams } from "react-router";
 
 function ManagerPermissinSection() {
-  const { profile, isLoading } = useManagerStore();
+  const { id } = useParams();
+  const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
+    useManagerStore();
   const [isEdit, setIsEdit] = useState(false);
 
   const initialValues = {
@@ -26,7 +29,15 @@ function ManagerPermissinSection() {
 
   const handleSubmit = (values) => {
     console.log(values);
+    if (isLoading.permissions) return;
+    updateManagerProfileHandler("permissions", id, values);
   };
+
+  useEffect(() => {
+    if (isSuccess.permissions) {
+      onClose();
+    }
+  }, [isSuccess]);
 
   return (
     <div className="p-5 bg-base-100 shadow-sm">
@@ -74,7 +85,7 @@ function ManagerPermissinSection() {
                   <div className="flex gap-2 flex-wrap">
                     <Button
                       variant="outline"
-                      className=" mt-2.5"
+                      className="mt-2.5"
                       onClick={onClose}
                     >
                       Cancel
@@ -82,9 +93,9 @@ function ManagerPermissinSection() {
 
                     <Button
                       type="submit"
-                      className=" mt-2.5"
-                      disabled={isLoading.updateInfo}
-                      isLoading={isLoading.updateInfo}
+                      className="mt-2.5"
+                      disabled={isLoading.permissions}
+                      isLoading={isLoading.permissions}
                     >
                       Save
                     </Button>
