@@ -1,6 +1,7 @@
 import useManagerStore from "../../store/managerStore";
 import Button from "../ui/Button";
 import { FaUserPen } from "react-icons/fa6";
+import Skeleton from "../ui/Skeleton";
 
 function ManagerInfoSection() {
   const { profile, isLoading } = useManagerStore();
@@ -9,14 +10,14 @@ function ManagerInfoSection() {
     <div className="p-5 bg-base-100 shadow-sm">
       <div className="flex gap-4 items-center justify-between mb-4">
         {isLoading.profileGet ? (
-          <div className="h-8 max-w-48 w-full bg-content-400/30 rounded animate-pulse"></div>
+          <Skeleton className="h-8 max-w-48" />
         ) : (
           <h1 className="text-xl font-semibold text-content-200">
             Basic Information
           </h1>
         )}
         {isLoading.profileGet ? (
-          <div className="size-8 rounded-full bg-content-400/30 animate-pulse" />
+          <Skeleton className="size-8 rounded-full" />
         ) : (
           <Button variant="icon" className="size-10">
             <FaUserPen className="text-2xl" />
@@ -30,8 +31,8 @@ function ManagerInfoSection() {
             <ul className="space-y-2.5">
               {[...Array(5)].map((_, index) => (
                 <li key={index} className="flex gap-2 flex-wrap items-center">
-                  <div className="w-24 h-4 bg-content-400/30 rounded animate-pulse" />
-                  <div className="max-w-48 w-full h-4 bg-content-400/30 rounded animate-pulse" />
+                  <Skeleton className="max-w-24" />
+                  <Skeleton className="max-w-48" />
                 </li>
               ))}
             </ul>

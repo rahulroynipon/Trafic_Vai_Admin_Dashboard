@@ -1,6 +1,7 @@
 import useManagerStore from "../../store/managerStore";
 import avatarPlaceholder from "../../assets/avatar-placeholder.jpg";
 import Button from "../ui/Button";
+import Skeleton from "../ui/Skeleton";
 
 function ManagerAvatarSection() {
   const { profile, isLoading } = useManagerStore();
@@ -11,7 +12,7 @@ function ManagerAvatarSection() {
         {/* Avatar */}
         <div className="size-14 md:size-18 rounded-full overflow-hidden bg-gray-200">
           {isLoading.profileGet ? (
-            <div className="w-full h-full animate-pulse bg-content-400/30" />
+            <Skeleton className="h-full" />
           ) : (
             <img
               src={profile?.avatar?.url || avatarPlaceholder}
@@ -25,8 +26,8 @@ function ManagerAvatarSection() {
         <div className="flex flex-col">
           {isLoading.profileGet ? (
             <>
-              <div className="w-32 h-4 md:h-5 bg-content-400/30 rounded animate-pulse mb-1" />
-              <div className="w-24 h-3 md:h-4 bg-content-400/30 rounded animate-pulse" />
+              <Skeleton className="w-32 h-4 md:h-5 mb-1" />
+              <Skeleton className="w-24 h-3 md:h-4" />
             </>
           ) : (
             <>
@@ -44,7 +45,7 @@ function ManagerAvatarSection() {
       {/* Button */}
       <div>
         {isLoading.profileGet ? (
-          <div className="w-28 h-8 bg-content-400/30 rounded animate-pulse" />
+          <Skeleton className="w-28 h-8" />
         ) : (
           <Button className="text-nowrap">Update Avatar</Button>
         )}
