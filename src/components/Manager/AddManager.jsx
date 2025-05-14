@@ -85,6 +85,7 @@ function AddManager() {
                 <Button
                   type="submit"
                   disabled={isLoading.create}
+                  isLoading={isLoading.create}
                   className="w-full mt-2.5"
                 >
                   Add New Manager

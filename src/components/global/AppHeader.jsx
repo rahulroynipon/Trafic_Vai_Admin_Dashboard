@@ -3,7 +3,7 @@ import { IoMdNotifications } from "react-icons/io";
 import useMobile from "../../lib/useMobile";
 import emoji from "../../assets/emoji.svg";
 import useAuthStore from "../../store/authStore";
-import avatarPlaceholder from "../../assets/avatar-placeholder.png";
+import avatarPlaceholder from "../../assets/avatar-placeholder.jpg";
 
 function AppHeader({ toggleFn }) {
   const isMobile = useMobile();

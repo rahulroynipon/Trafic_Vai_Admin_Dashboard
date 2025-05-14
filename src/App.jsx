@@ -6,6 +6,7 @@ import useAuthStore from "./store/authStore";
 
 // 🔁 Dynamically import pages
 const Manager = lazy(() => import("./pages/Manager"));
+const ManagerProfile = lazy(() => import("./pages/ManagerProfile"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Services = lazy(() => import("./pages/Services"));
@@ -28,7 +29,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<p>Dashboard</p>} />
           <Route path="/manager" element={<Manager />} />
-          <Route path="/manager/:id" element={<p>Rahul</p>} />
+          <Route path="/manager/:id" element={<ManagerProfile />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/services" element={<Services />} />

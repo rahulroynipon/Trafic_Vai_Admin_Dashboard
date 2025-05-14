@@ -52,10 +52,10 @@ function Layout() {
 
         {/* Page Content */}
         <div className="flex-1 flex flex-col overflow-y-auto px-6 mb-6 md:px-8">
-          <div className="h-[4rem] flex  items-center justify-between">
+          <div className="h-[4rem] flex items-center justify-between">
             <DrawerLabel />
           </div>
-          <main className="flex-1">
+          <main className="flex-1 overflow-y-auto">
             <Suspense
               Outlet={
                 <AppLoader outerClass="h-full relative -top-24 md:-top-12" />

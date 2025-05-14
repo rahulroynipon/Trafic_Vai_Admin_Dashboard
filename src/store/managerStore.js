@@ -8,10 +8,12 @@ const initialState = {
   get: false,
   update: false,
   delete: false,
+  profileGet: false,
 };
 
 const useManagerStore = create((set) => ({
   managers: [],
+  profile: {},
   isLoading: { ...initialState },
   isSuccess: { ...initialState },
   isError: { ...initialState },
@@ -74,6 +76,32 @@ const useManagerStore = create((set) => ({
       }
     } catch (error) {
       updateState(set, "delete", {
+        loading: false,
+        error: true,
+        success: false,
+      });
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  },
+
+  getManagerProfileHandler: async (id) => {
+    updateState(set, "profileGet", {
+      loading: true,
+      error: false,
+      success: false,
+    });
+    try {
+      const res = await apiInstance.get(`/user/manager/${id}`);
+      if (res.status === 200) {
+        set({ profile: res.data?.payload });
+        updateState(set, "profileGet", {
+          loading: false,
+          error: false,
+          success: true,
+        });
+      }
+    } catch (error) {
+      updateState(set, "profileGet", {
         loading: false,
         error: true,
         success: false,

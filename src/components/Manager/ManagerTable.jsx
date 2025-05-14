@@ -35,6 +35,7 @@ function ManagerTable() {
   };
 
   useEffect(() => {
+    if (managers.length) return;
     getManagersHandler();
   }, []);
 
@@ -118,6 +119,7 @@ function ManagerTable() {
             type="button"
             onClick={() => deleteManagerHandler(isOpen.selectedData._id)}
             disabled={isLoading.delete}
+            isLoading={isLoading.delete}
           >
             Delete
           </Button>

@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils";
+import AppLoader from "../global/AppLoader";
 
 export default function Button({
   type = "button",
@@ -7,6 +8,7 @@ export default function Button({
   className = "",
   disabled = false,
   variant = "primary",
+  isLoading = false,
 }) {
   return (
     <button
@@ -24,7 +26,18 @@ export default function Button({
         className
       )}
     >
-      {children}
+      {isLoading ? (
+        <div className="flex items-center justify-center space-x-2">
+          <AppLoader
+            className={cn(
+              "size-4 border-2 border-base-300 border-t-transparent"
+            )}
+          />
+          <span className="">please wait</span>
+        </div>
+      ) : (
+        children
+      )}
     </button>
   );
 }
