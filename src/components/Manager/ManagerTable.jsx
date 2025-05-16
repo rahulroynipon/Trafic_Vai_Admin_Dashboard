@@ -11,7 +11,8 @@ function ManagerTable() {
   const {
     getManagersHandler,
     deleteManagerHandler,
-    managers,
+    activeManagers: managers,
+    pagination,
     isSuccess,
     isLoading,
     isError,
@@ -36,7 +37,7 @@ function ManagerTable() {
 
   useEffect(() => {
     if (managers.length) return;
-    getManagersHandler();
+    getManagersHandler({ page: 1, limit: pagination.limit });
   }, []);
 
   useEffect(() => {
@@ -45,7 +46,17 @@ function ManagerTable() {
     }
   }, [isSuccess]);
 
-  const renderRow = (manager) => {
+  const onPageChange = (newPage) => {
+    if (
+      newPage !== pagination.page &&
+      newPage >= 1 &&
+      newPage <= pagination.totalPages
+    ) {
+      getManagersHandler({ page: newPage, limit: pagination.limit });
+    }
+  };
+
+  const renderRow = (manager, index) => {
     const isShow = showPasswords[manager._id];
 
     return (
@@ -98,6 +109,8 @@ function ManagerTable() {
         data={managers}
         isLoading={isLoading.get}
         renderRow={renderRow}
+        pagination={pagination}
+        onPageChange={onPageChange}
       />
       <Modal title="Delete Manager" isOpen={isOpen.state} onClose={onClose}>
         <div className="text-center my-9">

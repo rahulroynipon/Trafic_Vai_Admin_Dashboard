@@ -17,8 +17,13 @@ function AddManager() {
     password: "",
     permissions: [],
   };
-  const { createManagerHandler, isLoading, isError, isSuccess } =
-    useManagerStore();
+  const {
+    getManagersHandler,
+    createManagerHandler,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useManagerStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
@@ -42,11 +47,27 @@ function AddManager() {
   }, [isSuccess]);
 
   return (
-    <TableHeader title="Manager">
+    <TableHeader title="Manager" className="flex items-center gap-3">
+      <input
+        type="text"
+        placeholder="Search by name"
+        className="px-3 py-1.5 border border-content-400/30 rounded hover:border-content-400/50 focus:border-primary
+        focus:outline-none w-full transition-all placeholder:text-sm"
+        onChange={(e) => {
+          getManagersHandler({ search: e.target.value });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            getManagersHandler({ search: e.target.value });
+          }
+        }}
+      />
+
       <Button onClick={onOpen} className="flex items-center space-x-1.5">
         <FiPlus />
         <span>Add</span>
       </Button>
+
       <Modal title="Add Manager" isOpen={isOpen} onClose={onClose}>
         <Formik
           initialValues={initialValues}
