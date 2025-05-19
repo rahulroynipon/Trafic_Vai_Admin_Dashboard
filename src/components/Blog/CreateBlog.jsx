@@ -4,6 +4,8 @@ import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
 import Button from "../ui/Button";
 import ImageDropzone from "../ui/ImageDropzone";
+import useBlogStore from "./../../store/blogStore";
+import { useEffect, useRef } from "react";
 
 function CreateBlog() {
   const initialValues = {
@@ -12,10 +14,19 @@ function CreateBlog() {
     thumbnail: "",
   };
 
+  const { createBlogHandler, isLoading, isSuccess } = useBlogStore();
+  const formikRef = useRef(null);
+
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Blog values:", values);
-    resetForm();
+    if (isLoading.create) return;
+    createBlogHandler(values);
   };
+
+  useEffect(() => {
+    if (isSuccess.create && formikRef.current) {
+      formikRef.current.resetForm();
+    }
+  }, [isSuccess]);
 
   return (
     <div className="bg-base-100">
@@ -24,8 +35,9 @@ function CreateBlog() {
           Add New Blog
         </h1>
       </div>
-      <div className=" p-4 w-full">
+      <div className="p-4 w-full">
         <Formik
+          innerRef={formikRef}
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -38,7 +50,6 @@ function CreateBlog() {
                 required
                 className="h-[362px]"
               />
-
               <InputField
                 name="title"
                 label="Title"
@@ -52,12 +63,17 @@ function CreateBlog() {
                 rows={12}
                 required
               />
-
               <div className="flex gap-2 flex-wrap">
-                <Button variant="outline" onClick={resetForm}>
+                <Button variant="outline" onClick={() => resetForm()}>
                   Cancel
                 </Button>
-                <Button type="submit">Upload Blog</Button>
+                <Button
+                  type="submit"
+                  isLoading={isLoading.create}
+                  disabled={isLoading.create}
+                >
+                  Upload Blog
+                </Button>
               </div>
             </Form>
           )}

@@ -41,7 +41,8 @@ export default function ImageDropzone({
     }
   };
 
-  const clearImage = () => {
+  const clearImage = (e) => {
+    e.stopPropagation();
     setFieldValue(name, "");
     setPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
