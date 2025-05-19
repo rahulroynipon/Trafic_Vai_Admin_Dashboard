@@ -8,6 +8,7 @@ export default function ImageInputField({
   name,
   placeholder,
   className,
+  required,
 }) {
   const { setFieldValue } = useFormikContext();
   const [preview, setPreview] = useState(null);
@@ -36,9 +37,10 @@ export default function ImageInputField({
       {label && (
         <label
           htmlFor={name}
-          className="font-semibold self-start mb-1 text-sm text-content-200"
+          className="font-medium mb-1 self-start text-sm text-content-400"
         >
           {label}
+          {required && <span className="text-red-500">*</span>}
         </label>
       )}
 

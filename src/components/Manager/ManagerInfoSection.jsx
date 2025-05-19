@@ -97,7 +97,7 @@ function ManagerInfoSection() {
                     <div className="flex gap-2 flex-wrap">
                       <Button
                         variant="outline"
-                        className=" mt-2.5"
+                        className="mt-2.5"
                         onClick={onClose}
                       >
                         Cancel
@@ -105,7 +105,7 @@ function ManagerInfoSection() {
 
                       <Button
                         type="submit"
-                        className=" mt-2.5"
+                        className="mt-2.5"
                         disabled={isLoading.info}
                         isLoading={isLoading.info}
                       >
