@@ -15,7 +15,6 @@ function ManagerTable() {
     pagination,
     isSuccess,
     isLoading,
-    isError,
   } = useManagerStore();
   const [showPasswords, setShowPasswords] = useState({});
   const [isOpen, setIsOpen] = useState({ state: false, selectedData: null });
@@ -36,11 +35,6 @@ function ManagerTable() {
   };
 
   useEffect(() => {
-    if (managers.length) return;
-    getManagersHandler({ page: 1, limit: pagination.limit });
-  }, []);
-
-  useEffect(() => {
     if (isSuccess.delete) {
       onClose();
     }
@@ -56,7 +50,7 @@ function ManagerTable() {
     }
   };
 
-  const renderRow = (manager, index) => {
+  const renderRow = (manager) => {
     const isShow = showPasswords[manager._id];
 
     return (

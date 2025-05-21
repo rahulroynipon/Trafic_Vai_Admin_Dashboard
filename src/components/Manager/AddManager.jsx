@@ -21,7 +21,6 @@ function AddManager() {
     getManagersHandler,
     createManagerHandler,
     isLoading,
-    isError,
     isSuccess,
   } = useManagerStore();
   const [isOpen, setIsOpen] = useState(false);
