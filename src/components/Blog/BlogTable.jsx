@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import { Table } from "../ui/Table";
 import useBlogStore from "./../../store/blogStore";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { FaEye } from "react-icons/fa6";
+
 import Modal from "../ui/Modal";
+import { useNavigate } from "react-router";
 
 function BlogTable() {
   const {
@@ -15,6 +18,7 @@ function BlogTable() {
     deleteBlogHandler,
   } = useBlogStore();
 
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState({ state: false, selectedData: null });
 
   const onOpen = (data) => {
@@ -23,6 +27,10 @@ function BlogTable() {
 
   const onClose = () => {
     setIsOpen({ state: false, selectedData: null });
+  };
+
+  const redirectToView = (id) => {
+    navigate(`/blogs/${id}`);
   };
 
   useEffect(() => {
@@ -58,6 +66,15 @@ function BlogTable() {
       </td>
 
       <td className="p-4 text-nowrap flex space-x-1">
+        <Button
+          type="button"
+          variant="icon"
+          onClick={() => redirectToView(blog._id)}
+          className="text-lg text-primary"
+        >
+          <FaEye />
+        </Button>
+
         <Button
           type="button"
           variant="icon"

@@ -45,6 +45,7 @@ function App() {
           <Route path="blogs">
             <Route index element={<Blogs />} />
             <Route path="create" element={<AddBlog />} />
+            <Route path=":id" element={<p>View Blog</p>} />
           </Route>
         </Route>
       </Routes>
