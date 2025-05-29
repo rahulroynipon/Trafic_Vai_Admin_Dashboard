@@ -5,10 +5,13 @@ import { toast } from "sonner";
 
 const initialState = {
   get: false,
+  getSub: false,
+  createSub: false,
 };
 
 const useServiceStore = create((set) => ({
   services: [],
+  subservices: [],
   isLoading: { ...initialState },
   isSuccess: { ...initialState },
   isError: { ...initialState },
@@ -27,6 +30,28 @@ const useServiceStore = create((set) => ({
       }
     } catch (error) {
       updateState(set, "get", {
+        loading: false,
+        error: true,
+        success: false,
+      });
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  },
+
+  getSubServicesHandler: async (slug) => {
+    updateState(set, "getSub", { loading: true, error: false, success: false });
+    try {
+      const res = await apiInstance.get(`/service/${slug}`);
+      if (res.status === 200) {
+        set({ subservices: res.data?.payload });
+        updateState(set, "getSub", {
+          loading: false,
+          error: false,
+          success: true,
+        });
+      }
+    } catch (error) {
+      updateState(set, "getSub", {
         loading: false,
         error: true,
         success: false,
