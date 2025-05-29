@@ -117,7 +117,7 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-2.5 items-center justify-between">
-        <span className="text-sm text-content-400">
+        <span className="text-sm text-content-400 font-medium">
           Showing {from} to {to} of {total} entries
         </span>
 

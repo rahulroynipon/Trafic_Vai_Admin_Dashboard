@@ -45,7 +45,7 @@ function BlogTable() {
       newPage >= 1 &&
       newPage <= pagination.totalPages
     ) {
-      getManagersHandler({ page: newPage, limit: pagination.limit });
+      getBlogsHandler({ page: newPage, limit: pagination.limit });
     }
   };
 
