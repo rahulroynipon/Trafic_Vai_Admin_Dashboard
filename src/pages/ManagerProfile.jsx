@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import ManagerAvatarSection from "../components/Manager/ManagerAvatarSection";
 import ManagerInfoSection from "../components/Manager/ManagerInfoSection";
 import ManagerPermissinSection from "../components/Manager/ManagerPermissinSection";
-import Button from "../components/ui/Button";
 
 function ManagerProfile() {
   const { id } = useParams();

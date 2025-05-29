@@ -17,6 +17,7 @@ const ProjectRequest = lazy(() => import("./pages/ProjectRequest"));
 const Message = lazy(() => import("./pages/Message"));
 const Blogs = lazy(() => import("./pages/Blogs"));
 const AddBlog = lazy(() => import("./pages/AddBlog"));
+const BlogView = lazy(() => import("./pages/BlogView"));
 
 function App() {
   const { getUserHandler } = useAuthStore();
@@ -51,7 +52,7 @@ function App() {
           <Route path="blogs">
             <Route index element={<Blogs />} />
             <Route path="create" element={<AddBlog />} />
-            <Route path=":id" element={<p>View Blog</p>} />
+            <Route path=":id" element={<BlogView />} />
           </Route>
         </Route>
       </Routes>
