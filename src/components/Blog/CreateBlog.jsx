@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { createBlogSchema as validationSchema } from "../../schema/blog.schema";
 import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
@@ -6,14 +6,20 @@ import Button from "../ui/Button";
 import ImageDropzone from "../ui/ImageDropzone";
 import useBlogStore from "./../../store/blogStore";
 import { useEffect, useRef } from "react";
+import Dropdown from "../ui/Dropdown";
+import useOptionStore from "../../store/optionStore";
+import { GiCheckMark } from "react-icons/gi";
+import { cn } from "../../lib/utils";
 
 function CreateBlog() {
   const initialValues = {
     title: "",
     description: "",
     thumbnail: "",
+    service: "",
   };
 
+  const { services } = useOptionStore();
   const { createBlogHandler, isLoading, isSuccess } = useBlogStore();
   const formikRef = useRef(null);
 
@@ -42,7 +48,7 @@ function CreateBlog() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ resetForm }) => (
+          {({ resetForm, values, setFieldValue, errors, touched }) => (
             <Form className="space-y-4">
               <ImageDropzone
                 name="thumbnail"
@@ -50,6 +56,55 @@ function CreateBlog() {
                 required
                 className="h-[362px]"
               />
+
+              {/* dropdown menu start */}
+              <div className="w-full">
+                <label
+                  htmlFor="service"
+                  className="font-medium mb-1 text-sm text-content-400 block"
+                >
+                  Service<span className="text-red-500">*</span>
+                </label>
+
+                <Dropdown
+                  id="service"
+                  name="service"
+                  className={cn(
+                    touched.service &&
+                      errors.service &&
+                      "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                  )}
+                  value={
+                    services.find((s) => s.value === values.service)?.label
+                  }
+                  onChange={(item) => setFieldValue("service", item?.value)}
+                  renderOption={({ select }) => (
+                    <ul className="max-h-60 overflow-y-auto">
+                      {services?.map((service) => (
+                        <li
+                          key={service?.value}
+                          onClick={() => select(service)}
+                          className="flex items-center justify-between gap-3 py-2 px-3 hover:bg-base-300 cursor-pointer transition-colors duration-150"
+                        >
+                          <span>{service?.label}</span>
+                          {service?.value === values.service && (
+                            <GiCheckMark className="text-primary" />
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                />
+
+                <ErrorMessage
+                  name="service"
+                  component="div"
+                  className="text-red-700 text-sm mt-1.5"
+                />
+              </div>
+
+              {/* dropdown menu end */}
+
               <InputField
                 name="title"
                 label="Title"

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiInstance = axios.create({
-  baseURL: "https://traffic-vai.onrender.com/api/v1",
+  baseURL: "http://localhost:5000/api/v1",
 });
 // http://localhost:5000/api/v1
 // https://traffic-vai.onrender.com/api/v1

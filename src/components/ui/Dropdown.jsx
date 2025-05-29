@@ -5,7 +5,8 @@ import { cn } from "../../lib/utils";
 
 function Dropdown({
   renderOption,
-  buttonLabel = "Select option",
+  id,
+  buttonLabel = "Select one",
   value,
   onChange,
   className,
@@ -33,13 +34,18 @@ function Dropdown({
     <div className="relative inline-block text-left w-full" ref={dropdownRef}>
       <button
         type="button"
+        id={id}
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
           "cursor-pointer px-3 py-2 border border-content-400/20 focus:border-primary rounded w-full flex justify-between items-center focus:outline-none transition-all placeholder:text-sm",
           className
         )}
       >
-        <span>{value || buttonLabel}</span>
+        {value ? (
+          <span>{value}</span>
+        ) : (
+          <span className="text-sm text-content-100/55">{buttonLabel}</span>
+        )}
         <FiChevronDown
           className={`ml-2 transform transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""

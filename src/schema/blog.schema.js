@@ -3,6 +3,7 @@ import * as Yup from "yup";
 export const createBlogSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
+  service: Yup.string().required("Service is required"),
   thumbnail: Yup.mixed()
     .required("Thumbnail is required")
     .test("fileType", "Unsupported file type", (value) => {
