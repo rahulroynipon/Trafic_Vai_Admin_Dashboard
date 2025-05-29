@@ -10,6 +10,7 @@ const ManagerProfile = lazy(() => import("./pages/ManagerProfile"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Services = lazy(() => import("./pages/Services"));
+const Subservice = lazy(() => import("./pages/Subservice"));
 const LinkBuilding = lazy(() => import("./pages/LinkBuilding"));
 const ProjectRequest = lazy(() => import("./pages/ProjectRequest"));
 const Message = lazy(() => import("./pages/Message"));
@@ -37,7 +38,11 @@ function App() {
 
           <Route path="/clients" element={<Clients />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/services" element={<Services />} />
+
+          <Route path="/services">
+            <Route index element={<Services />} />
+            <Route path=":slug" element={<Subservice />} />
+          </Route>
           <Route path="/link-building" element={<LinkBuilding />} />
           <Route path="/project-request" element={<ProjectRequest />} />
           <Route path="/message" element={<Message />} />

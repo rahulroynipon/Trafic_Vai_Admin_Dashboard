@@ -12,6 +12,11 @@ function Services() {
 
   return (
     <>
+      <div className="pb-4 z-10 bg-base-200 sticky top-0">
+        <h1 className="text-2xl font-semibold text-content-200">
+          Service List
+        </h1>
+      </div>
       <ServiceList />
     </>
   );
