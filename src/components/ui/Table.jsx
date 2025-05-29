@@ -20,7 +20,7 @@ const Table = ({
   const hasData = data.length > 0 && typeof renderRow === "function";
 
   return (
-    <div className="relative  w-full bg-white">
+    <div className="relative flex-1  w-full bg-white">
       <div
         style={{ maxHeight: height }}
         className="absolute top-full left-0 w-full z-0 overflow-auto shadow-sm bg-base-100 flex flex-col"
