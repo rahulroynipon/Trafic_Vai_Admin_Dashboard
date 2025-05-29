@@ -5,7 +5,7 @@ function SubserviceList() {
   const { isLoading, subservices } = useServiceStore();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 p-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-2">
       {isLoading.getSub ? (
         Array(6)
           .fill(0)

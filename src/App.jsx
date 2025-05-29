@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import useAuthStore from "./store/authStore";
 
 // 🔁 Dynamically import pages
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Manager = lazy(() => import("./pages/Manager"));
 const ManagerProfile = lazy(() => import("./pages/ManagerProfile"));
 const Clients = lazy(() => import("./pages/Clients"));
@@ -29,7 +30,7 @@ function App() {
       <Toaster richColors position="top-right" />
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<p>Dashboard</p>} />
+          <Route index element={<Dashboard />} />
 
           <Route path="manager">
             <Route index element={<Manager />} />

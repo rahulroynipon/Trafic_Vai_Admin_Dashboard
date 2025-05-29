@@ -36,7 +36,7 @@ export default function TextAreaField({
           "px-3 py-2 border rounded focus:outline-none w-full transition-all resize-none placeholder:text-sm",
           hasError
             ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-            : "border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/30",
+            : "border-content-400/20 focus:border-primary focus:ring-2 focus:ring-primary/30",
           className
         )}
       />
