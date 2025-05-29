@@ -28,7 +28,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Toaster richColors position="top-right" />
+      <Toaster richColors position="bottom-right" />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />
