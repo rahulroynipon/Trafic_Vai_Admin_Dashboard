@@ -32,21 +32,43 @@ const useBlogStore = create((set, get) => ({
 
   createBlogHandler: async (data) => {
     updateState(set, "create", { loading: true, error: false, success: false });
+
     try {
       const res = await apiInstance.post("/blog", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
       if (res.status === 201) {
-        set((state) => ({
-          blogsCache: {},
-          paginationCache: {},
-          activeBlogs: [res.data.payload, ...state.activeBlogs],
-          isLoading: { ...state.isLoading, create: false },
-          isSuccess: { ...state.isSuccess, create: true },
-          isError: { ...state.isError, create: false },
-        }));
+        const newBlog = res.data.payload;
+
+        set((state) => {
+          const cacheKey =
+            state.searchQuery.trim().toLowerCase() || "__all__blogs__";
+          const page = state.pagination.page;
+
+          const isFromCache =
+            !!state.blogsCache?.[cacheKey]?.[page] &&
+            !!state.paginationCache?.[cacheKey]?.[page];
+
+          const exists = state.activeBlogs.some(
+            (blog) => blog._id === newBlog._id
+          );
+
+          return isFromCache && !exists
+            ? {
+                activeBlogs: [newBlog, ...state.activeBlogs],
+              }
+            : {};
+        });
+
+        updateState(set, "create", {
+          loading: false,
+          error: false,
+          success: true,
+        });
+
         toast.success(res.data.message || "Blog created successfully");
       }
     } catch (error) {
@@ -55,6 +77,7 @@ const useBlogStore = create((set, get) => ({
         error: true,
         success: false,
       });
+
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
   },
