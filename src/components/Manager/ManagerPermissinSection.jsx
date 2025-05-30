@@ -8,9 +8,13 @@ import { MdEditSquare } from "react-icons/md";
 import Button from "../ui/Button";
 import CheckboxGroupField from "../ui/CheckboxGroupField";
 import { useParams } from "react-router";
+import { permessions } from "../../data/Permissions";
+import useAuthStore from "../../store/authStore";
 
 function ManagerPermissinSection() {
   const { id } = useParams();
+
+  const { hasPermission } = useAuthStore();
   const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
     useManagerStore();
   const [isEdit, setIsEdit] = useState(false);
@@ -50,12 +54,14 @@ function ManagerPermissinSection() {
           </h1>
         )}
 
-        {isLoading.profileGet ? (
-          <Skeleton className="size-8 rounded-full" />
-        ) : !isEdit ? (
-          <Button onClick={onEdit} variant="icon" className="size-10">
-            <MdEditSquare className="text-2xl" />
-          </Button>
+        {hasPermission(permessions.manager) ? (
+          isLoading.profileGet ? (
+            <Skeleton className="size-8 rounded-full" />
+          ) : !isEdit ? (
+            <Button onClick={onEdit} variant="icon" className="size-10">
+              <MdEditSquare className="text-2xl" />
+            </Button>
+          ) : null
         ) : null}
       </div>
 

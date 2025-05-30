@@ -4,6 +4,7 @@ import useMobile from "../../lib/useMobile";
 import emoji from "../../assets/emoji.svg";
 import useAuthStore from "../../store/authStore";
 import avatarPlaceholder from "../../assets/avatar-placeholder.jpg";
+import { Link } from "react-router";
 
 function AppHeader({ toggleFn }) {
   const isMobile = useMobile();
@@ -36,13 +37,16 @@ function AppHeader({ toggleFn }) {
         >
           <IoMdNotifications />
         </button>
-        <div className="size-8 rounded-full ring-2 ring-content-400/70 overflow-hidden bg-base-100">
+        <Link
+          to={`/manager/${user?._id}`}
+          className="size-8 rounded-full ring-2 ring-content-400/70 overflow-hidden bg-base-100"
+        >
           <img
             src={user?.avatar?.url || avatarPlaceholder}
             alt="avatar"
             className="w-full h-full object-cover"
           />
-        </div>
+        </Link>
       </div>
     </div>
   );

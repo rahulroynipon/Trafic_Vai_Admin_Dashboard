@@ -4,7 +4,6 @@ import { Table } from "../ui/Table";
 import useBlogStore from "./../../store/blogStore";
 import { MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa6";
-
 import Modal from "../ui/Modal";
 import { useNavigate } from "react-router";
 

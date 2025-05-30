@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useManagerStore from "../../store/managerStore";
 import { Table } from "../ui/Table";
-import { MdDelete, MdEdit } from "react-icons/md";
-import { FaLock, FaLockOpen } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
+import { FaEye } from "react-icons/fa6";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import { Link } from "react-router";
@@ -16,7 +16,7 @@ function ManagerTable() {
     isSuccess,
     isLoading,
   } = useManagerStore();
-  const [showPasswords, setShowPasswords] = useState({});
+
   const [isOpen, setIsOpen] = useState({ state: false, selectedData: null });
 
   const onOpen = (data) => {
@@ -25,13 +25,6 @@ function ManagerTable() {
 
   const onClose = () => {
     setIsOpen({ state: false, selectedData: null });
-  };
-
-  const togglePasswordVisibility = (id) => {
-    setShowPasswords((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
   };
 
   useEffect(() => {
@@ -51,8 +44,6 @@ function ManagerTable() {
   };
 
   const renderRow = (manager) => {
-    const isShow = showPasswords[manager._id];
-
     return (
       <tr
         className="text-sm border-b border-content-400/15 text-content-300"
@@ -61,25 +52,14 @@ function ManagerTable() {
         <td className="p-4 text-nowrap">{manager._id}</td>
         <td className="p-4 text-nowrap">{manager.fullname}</td>
         <td className="p-4 text-nowrap">{manager.email}</td>
-        <td className="p-4 text-nowrap">
-          {isShow ? manager.__raw__password : "••••••••"}
-        </td>
         <td className="p-4 text-nowrap flex space-x-1">
-          <Button
-            type="button"
-            variant="icon"
-            onClick={() => togglePasswordVisibility(manager._id)}
-          >
-            {isShow ? <FaLockOpen /> : <FaLock />}
-          </Button>
-
           <Link to={`/manager/${manager._id}`}>
             <Button
               type="button"
               variant="icon"
               className="text-lg text-primary"
             >
-              <MdEdit />
+              <FaEye />
             </Button>
           </Link>
 
@@ -99,7 +79,7 @@ function ManagerTable() {
   return (
     <>
       <Table
-        headers={["Manager ID", "Name", "Email", "Password", "Action"]}
+        headers={["Manager ID", "Name", "Email", "Action"]}
         data={managers}
         isLoading={isLoading.get}
         renderRow={renderRow}

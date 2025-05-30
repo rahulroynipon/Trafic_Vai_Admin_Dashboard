@@ -8,6 +8,8 @@ import { Form, Formik } from "formik";
 import { managerAvatarSchema as validationSchema } from "../../schema/manager.schema";
 import ImageInputField from "./../ui/ImageInputField";
 import { useParams } from "react-router";
+import { permessions } from "../../data/Permissions";
+import useAuthStore from "../../store/authStore";
 
 function ManagerAvatarSection() {
   const { id } = useParams();
@@ -15,6 +17,7 @@ function ManagerAvatarSection() {
     avatar: null,
   };
 
+  const { hasPermission } = useAuthStore();
   const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
     useManagerStore();
   const [isOpen, setIsopen] = useState(false);
@@ -76,15 +79,17 @@ function ManagerAvatarSection() {
         </div>
 
         {/* Button */}
-        <div>
-          {isLoading.profileGet ? (
-            <Skeleton className="w-28 h-8" />
-          ) : (
-            <Button onClick={onOpen} className="text-nowrap">
-              Update Avatar
-            </Button>
-          )}
-        </div>
+        {hasPermission(permessions.manager) ? (
+          <div>
+            {isLoading.profileGet ? (
+              <Skeleton className="w-28 h-8" />
+            ) : (
+              <Button onClick={onOpen} className="text-nowrap">
+                Update Avatar
+              </Button>
+            )}
+          </div>
+        ) : null}
       </div>
 
       {/* avatar update */}

@@ -7,9 +7,12 @@ import { Form, Formik } from "formik";
 import { managerInfoSchema as validationSchema } from "../../schema/manager.schema";
 import InputField from "./../ui/InputField";
 import { useParams } from "react-router";
+import useAuthStore from "../../store/authStore";
+import { permessions } from "../../data/Permissions";
 
 function ManagerInfoSection() {
   const { id } = useParams();
+  const { hasPermission } = useAuthStore();
   const { updateManagerProfileHandler, profile, isLoading, isSuccess } =
     useManagerStore();
   const [isEdit, setIsEdit] = useState(false);
@@ -50,12 +53,15 @@ function ManagerInfoSection() {
               Basic Information
             </h1>
           )}
-          {isLoading.profileGet ? (
-            <Skeleton className="size-8 rounded-full" />
-          ) : !isEdit ? (
-            <Button onClick={onEdit} variant="icon" className="size-10">
-              <FaUserPen className="text-2xl" />
-            </Button>
+
+          {hasPermission(permessions.manager) ? (
+            isLoading.profileGet ? (
+              <Skeleton className="size-8 rounded-full" />
+            ) : !isEdit ? (
+              <Button onClick={onEdit} variant="icon" className="size-10">
+                <FaUserPen className="text-2xl" />
+              </Button>
+            ) : null
           ) : null}
         </div>
 
@@ -143,14 +149,16 @@ function ManagerInfoSection() {
                     {profile?.role}
                   </span>
                 </li>
-                <li className="flex gap-2 flex-wrap">
-                  <span className="font-medium text-content-200">
-                    Password:
-                  </span>
-                  <span className="italic  text-content-300">
-                    {profile?.__raw__password}
-                  </span>
-                </li>
+                {profile?.__raw__password ? (
+                  <li className="flex gap-2 flex-wrap">
+                    <span className="font-medium text-content-200">
+                      Password:
+                    </span>
+                    <span className="italic  text-content-300">
+                      {profile?.__raw__password}
+                    </span>
+                  </li>
+                ) : null}
               </ul>
             )}
           </div>

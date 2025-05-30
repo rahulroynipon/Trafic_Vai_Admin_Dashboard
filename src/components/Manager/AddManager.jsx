@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import InputField from "../ui/InputField";
 import { managerSchema as validationSchema } from "../../schema/manager.schema";
 import CheckboxGroupField from "../ui/CheckboxGroupField";
-import permessionOptions from "../../data/Permissions";
+import { permessionOptions } from "../../data/Permissions";
 import useManagerStore from "../../store/managerStore";
 
 function AddManager() {
@@ -17,12 +17,8 @@ function AddManager() {
     password: "",
     permissions: [],
   };
-  const {
-    getManagersHandler,
-    createManagerHandler,
-    isLoading,
-    isSuccess,
-  } = useManagerStore();
+  const { getManagersHandler, createManagerHandler, isLoading, isSuccess } =
+    useManagerStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
