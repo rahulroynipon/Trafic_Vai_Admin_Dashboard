@@ -6,8 +6,11 @@ import { FaEye } from "react-icons/fa6";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import { Link } from "react-router";
+import useAuthStore from "../../store/authStore";
+import { permessions } from "../../data/Permissions";
 
 function ManagerTable() {
+  const { hasPermission } = useAuthStore();
   const {
     getManagersHandler,
     deleteManagerHandler,
@@ -52,6 +55,13 @@ function ManagerTable() {
         <td className="p-4 text-nowrap">{manager._id}</td>
         <td className="p-4 text-nowrap">{manager.fullname}</td>
         <td className="p-4 text-nowrap">{manager.email}</td>
+        <td className="p-4 text-nowrap">
+          {manager.createdAt
+            ? new Intl.DateTimeFormat("en-GB").format(
+                new Date(manager.createdAt)
+              )
+            : "N/A"}
+        </td>
         <td className="p-4 text-nowrap flex space-x-1">
           <Link to={`/manager/${manager._id}`}>
             <Button
@@ -63,14 +73,16 @@ function ManagerTable() {
             </Button>
           </Link>
 
-          <Button
-            type="button"
-            variant="icon"
-            onClick={() => onOpen(manager)}
-            className="text-red-500 focus-visible:ring-red-300 hover:bg-red-100 text-lg"
-          >
-            <MdDelete />
-          </Button>
+          {hasPermission(permessions.manager) ? (
+            <Button
+              type="button"
+              variant="icon"
+              onClick={() => onOpen(manager)}
+              className="text-red-500 focus-visible:ring-red-300 hover:bg-red-100 text-lg"
+            >
+              <MdDelete />
+            </Button>
+          ) : null}
         </td>
       </tr>
     );
@@ -79,7 +91,7 @@ function ManagerTable() {
   return (
     <>
       <Table
-        headers={["Manager ID", "Name", "Email", "Action"]}
+        headers={["Manager ID", "Name", "Email", "Joined On", "Action"]}
         data={managers}
         isLoading={isLoading.get}
         renderRow={renderRow}

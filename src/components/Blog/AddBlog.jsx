@@ -3,10 +3,13 @@ import Button from "../ui/Button";
 import { TableHeader } from "../ui/Table";
 import { FiPlus } from "react-icons/fi";
 import useBlogStore from "../../store/blogStore";
+import useAuthStore from "../../store/authStore";
+import { permessions } from "../../data/Permissions";
 
 function AddBlog() {
   const navigate = useNavigate();
 
+  const { hasPermission } = useAuthStore();
   const { getBlogsHandler } = useBlogStore();
 
   const createBlog = () => {
@@ -30,10 +33,12 @@ function AddBlog() {
         }}
       />
 
-      <Button onClick={createBlog} className="flex items-center space-x-1.5">
-        <FiPlus />
-        <span>Add</span>
-      </Button>
+      {hasPermission(permessions.blog) ? (
+        <Button onClick={createBlog} className="flex items-center space-x-1.5">
+          <FiPlus />
+          <span>Add</span>
+        </Button>
+      ) : null}
     </TableHeader>
   );
 }

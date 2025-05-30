@@ -6,8 +6,11 @@ import { MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa6";
 import Modal from "../ui/Modal";
 import { useNavigate } from "react-router";
+import useAuthStore from "../../store/authStore";
+import { permessions } from "../../data/Permissions";
 
 function BlogTable() {
+  const { hasPermission } = useAuthStore();
   const {
     getBlogsHandler,
     activeBlogs: blogs,
@@ -74,14 +77,16 @@ function BlogTable() {
           <FaEye />
         </Button>
 
-        <Button
-          type="button"
-          variant="icon"
-          onClick={() => onOpen(blog)}
-          className="text-red-500 focus-visible:ring-red-300 hover:bg-red-100 text-lg"
-        >
-          <MdDelete />
-        </Button>
+        {hasPermission(permessions.blog) ? (
+          <Button
+            type="button"
+            variant="icon"
+            onClick={() => onOpen(blog)}
+            className="text-red-500 focus-visible:ring-red-300 hover:bg-red-100 text-lg"
+          >
+            <MdDelete />
+          </Button>
+        ) : null}
       </td>
     </tr>
   );

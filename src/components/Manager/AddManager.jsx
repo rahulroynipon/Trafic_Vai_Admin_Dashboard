@@ -7,8 +7,9 @@ import { Formik, Form } from "formik";
 import InputField from "../ui/InputField";
 import { managerSchema as validationSchema } from "../../schema/manager.schema";
 import CheckboxGroupField from "../ui/CheckboxGroupField";
-import { permessionOptions } from "../../data/Permissions";
+import { permessionOptions, permessions } from "../../data/Permissions";
 import useManagerStore from "../../store/managerStore";
+import useAuthStore from "../../store/authStore";
 
 function AddManager() {
   const initialValues = {
@@ -17,6 +18,8 @@ function AddManager() {
     password: "",
     permissions: [],
   };
+
+  const { hasPermission } = useAuthStore();
   const { getManagersHandler, createManagerHandler, isLoading, isSuccess } =
     useManagerStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -58,10 +61,12 @@ function AddManager() {
         }}
       />
 
-      <Button onClick={onOpen} className="flex items-center space-x-1.5">
-        <FiPlus />
-        <span>Add</span>
-      </Button>
+      {hasPermission(permessions.manager) ? (
+        <Button onClick={onOpen} className="flex items-center space-x-1.5">
+          <FiPlus />
+          <span>Add</span>
+        </Button>
+      ) : null}
 
       <Modal title="Add Manager" isOpen={isOpen} onClose={onClose}>
         <Formik
