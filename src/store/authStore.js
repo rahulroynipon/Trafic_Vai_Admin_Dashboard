@@ -8,11 +8,20 @@ const initialState = {
   logout: false,
 };
 
-const useAuthStore = create((set) => ({
+const useAuthStore = create((set, get) => ({
   user: {},
   isLoading: { ...initialState },
   isSuccess: { ...initialState },
   isError: { ...initialState },
+
+  hasPermission: (permission) => {
+    const user = get().user;
+    if (!user) return false;
+    const { role, permissions = [] } = user;
+    if (role === "admin") return true;
+    if (role === "manager" && permissions.includes(permission)) return true;
+    return false;
+  },
 
   getUserHandler: async () => {
     updateState(set, "get", { loading: true, error: false, success: false });

@@ -1,6 +1,6 @@
 import useManagerStore from "../../store/managerStore";
 import Skeleton from "../ui/Skeleton";
-import permessionOptions from "../../data/Permissions";
+import { permessionOptions } from "../../data/Permissions";
 import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { managerPermissionsSchema as validationSchema } from "../../schema/manager.schema";

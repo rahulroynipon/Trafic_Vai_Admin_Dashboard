@@ -1,4 +1,4 @@
-const permissions = [
+const permessionOptions = [
   {
     label: "subservice",
     value: "subservice",
@@ -25,4 +25,13 @@ const permissions = [
   },
 ];
 
-export default permissions;
+const permessions = {
+  subservice: "subservice",
+  manager: "manager",
+  client: "client",
+  order: "order",
+  blog: "blog",
+  message: "message",
+};
+
+export { permessionOptions, permessions };
