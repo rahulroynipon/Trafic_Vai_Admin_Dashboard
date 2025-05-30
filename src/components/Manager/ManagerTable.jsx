@@ -97,6 +97,7 @@ function ManagerTable() {
         renderRow={renderRow}
         pagination={pagination}
         onPageChange={onPageChange}
+        currentItemsCount={managers.length}
       />
       <Modal title="Delete Manager" isOpen={isOpen.state} onClose={onClose}>
         <div className="text-center my-9">

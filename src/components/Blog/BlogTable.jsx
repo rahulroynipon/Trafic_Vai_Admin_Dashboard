@@ -100,6 +100,7 @@ function BlogTable() {
         pagination={pagination}
         isLoading={isLoading.get}
         onPageChange={onPageChange}
+        currentItemsCount={blogs.length}
       />
 
       <Modal title="Delete Blog" isOpen={isOpen.state} onClose={onClose}>

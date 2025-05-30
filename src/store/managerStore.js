@@ -37,6 +37,7 @@ const useManagerStore = create((set, get) => ({
       const res = await apiInstance.post("/user/manager", data);
       if (res.status === 201) {
         set((state) => ({
+          // Clear caches to force refetch, because new manager added
           managersCache: {},
           paginationCache: {},
           activeManagers: [res.data.payload, ...state.activeManagers],
@@ -45,6 +46,8 @@ const useManagerStore = create((set, get) => ({
           isError: { ...state.isError, create: false },
         }));
         toast.success(res.data.message || "Manager created successfully");
+      } else {
+        throw new Error("Unexpected server response");
       }
     } catch (error) {
       updateState(set, "create", {
@@ -117,6 +120,8 @@ const useManagerStore = create((set, get) => ({
           error: false,
           success: true,
         });
+      } else {
+        throw new Error("Unexpected server response");
       }
     } catch (error) {
       updateState(set, "get", { loading: false, error: true, success: false });
@@ -130,6 +135,7 @@ const useManagerStore = create((set, get) => ({
       const res = await apiInstance.delete(`/user/manager/${id}`);
       if (res.status === 200) {
         set((state) => {
+          // Remove deleted manager from all cache pages and activeManagers
           const newManagersCache = {};
           for (const [searchKey, pages] of Object.entries(
             state.managersCache
@@ -154,6 +160,8 @@ const useManagerStore = create((set, get) => ({
           success: true,
         });
         toast.success(res.data.message || "Manager deleted successfully");
+      } else {
+        throw new Error("Unexpected server response");
       }
     } catch (error) {
       updateState(set, "delete", {
@@ -166,6 +174,7 @@ const useManagerStore = create((set, get) => ({
   },
 
   profile: {},
+
   getManagerProfileHandler: async (id) => {
     updateState(set, "profileGet", {
       loading: true,
@@ -181,6 +190,8 @@ const useManagerStore = create((set, get) => ({
           error: false,
           success: true,
         });
+      } else {
+        throw new Error("Unexpected server response");
       }
     } catch (error) {
       updateState(set, "profileGet", {

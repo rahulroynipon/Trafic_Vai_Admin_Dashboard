@@ -15,6 +15,7 @@ const Table = ({
   children,
   pagination = {},
   onPageChange = () => {},
+  currentItemsCount,
   isLoading,
 }) => {
   const hasData = data.length > 0 && typeof renderRow === "function";
@@ -77,6 +78,7 @@ const Table = ({
           <TablePagination
             pagination={pagination}
             onPageChange={onPageChange}
+            currentItemsCount={currentItemsCount}
           />
         </div>
       </div>
@@ -93,21 +95,25 @@ const TableHeader = ({ title = "Title", children, className = "" }) => {
   );
 };
 
-const TablePagination = ({ pagination = {}, onPageChange }) => {
+const TablePagination = ({
+  pagination = {},
+  onPageChange,
+  currentItemsCount = 0,
+}) => {
   const { total = 0, page = 1, limit = 10, totalPages = 1 } = pagination;
 
-  // Ensure totalPages is at least 1 to avoid edge cases
   const safeTotalPages = totalPages > 0 ? totalPages : 1;
   const currentPage =
     page > safeTotalPages ? safeTotalPages : page < 1 ? 1 : page;
 
   const from = total === 0 ? 0 : (currentPage - 1) * limit + 1;
-  const to = Math.min(currentPage * limit, total);
+
+  // Use actual items count on page to calculate 'to'
+  const to = total === 0 ? 0 : from + currentItemsCount - 1;
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === safeTotalPages;
 
-  // Helper to safely change page, no call if invalid page
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= safeTotalPages && newPage !== currentPage) {
       onPageChange(newPage);
@@ -115,7 +121,10 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
   };
 
   return (
-    <div className="p-4">
+    <div
+      className="p-4"
+      title={`Showing items ${from} to ${to} out of ${total} entries`}
+    >
       <div className="flex flex-wrap gap-2.5 items-center justify-between">
         <span className="text-sm text-content-400 font-medium">
           Showing {from} to {to} of {total} entries
@@ -127,6 +136,7 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
             onClick={() => handlePageChange(1)}
             disabled={isFirstPage}
             className="size-7 border border-content-400/40 text-content-400 disabled:text-content-400/40 disabled:border-content-400/40 disabled:bg-transparent"
+            title="Go to first page"
           >
             <MdKeyboardDoubleArrowLeft className="text-2xl" />
           </Button>
@@ -136,6 +146,7 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={isFirstPage}
             className="size-7 border border-content-400/40 text-content-400 disabled:text-content-400/40 disabled:border-content-400/40 disabled:bg-transparent"
+            title="Go to previous page"
           >
             <MdKeyboardArrowLeft className="text-2xl" />
           </Button>
@@ -145,6 +156,7 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={isLastPage}
             className="size-7 border border-content-400/40 text-content-400 disabled:text-content-400/40 disabled:border-content-400/40 disabled:bg-transparent"
+            title="Go to next page"
           >
             <MdKeyboardArrowRight className="text-2xl" />
           </Button>
@@ -154,6 +166,7 @@ const TablePagination = ({ pagination = {}, onPageChange }) => {
             onClick={() => handlePageChange(safeTotalPages)}
             disabled={isLastPage}
             className="size-7 border border-content-400/40 text-content-400 disabled:text-content-400/40 disabled:border-content-400/40 disabled:bg-transparent"
+            title="Go to last page"
           >
             <MdKeyboardDoubleArrowRight className="text-2xl" />
           </Button>

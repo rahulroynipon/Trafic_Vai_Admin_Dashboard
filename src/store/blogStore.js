@@ -14,8 +14,8 @@ const initialState = {
 const CACHE_KEY_ALL = "__all__blogs__";
 
 const useBlogStore = create((set, get) => ({
-  blogsCache: {},
-  paginationCache: {},
+  blogsCache: {}, // { searchKey: { page: [blogs] } }
+  paginationCache: {}, // { searchKey: { page: paginationObj } }
   activeBlogs: [],
   pagination: {
     total: 0,
@@ -30,6 +30,63 @@ const useBlogStore = create((set, get) => ({
   isSuccess: { ...initialState },
   isError: { ...initialState },
 
+  // Helper to update caches and active blogs when adding a new blog
+  _addBlogToCacheAndActive: (newBlog) => {
+    const {
+      searchQuery,
+      pagination,
+      blogsCache,
+      paginationCache,
+      activeBlogs,
+    } = get();
+    const cacheKey = searchQuery.trim().toLowerCase() || CACHE_KEY_ALL;
+    const page = pagination.page;
+
+    const isCachedPage =
+      !!blogsCache?.[cacheKey]?.[page] && !!paginationCache?.[cacheKey]?.[page];
+
+    const exists = activeBlogs.some((blog) => blog._id === newBlog._id);
+
+    if (isCachedPage && !exists) {
+      // Add new blog to the beginning of activeBlogs
+      const updatedActiveBlogs = [newBlog, ...activeBlogs];
+
+      // Also update the cache for the current page
+      const updatedPageBlogs = [newBlog, ...(blogsCache[cacheKey][page] || [])];
+
+      // Update pagination total count
+      const updatedTotal = pagination.total + 1;
+      const updatedTotalPages = Math.ceil(updatedTotal / pagination.limit);
+
+      set((state) => ({
+        activeBlogs: updatedActiveBlogs,
+        blogsCache: {
+          ...state.blogsCache,
+          [cacheKey]: {
+            ...state.blogsCache[cacheKey],
+            [page]: updatedPageBlogs,
+          },
+        },
+        paginationCache: {
+          ...state.paginationCache,
+          [cacheKey]: {
+            ...state.paginationCache[cacheKey],
+            [page]: {
+              ...state.paginationCache[cacheKey][page],
+              total: updatedTotal,
+              totalPages: updatedTotalPages,
+            },
+          },
+        },
+        pagination: {
+          ...pagination,
+          total: updatedTotal,
+          totalPages: updatedTotalPages,
+        },
+      }));
+    }
+  },
+
   createBlogHandler: async (data) => {
     updateState(set, "create", { loading: true, error: false, success: false });
 
@@ -42,26 +99,7 @@ const useBlogStore = create((set, get) => ({
 
       if (res.status === 201) {
         const newBlog = res.data.payload;
-
-        set((state) => {
-          const cacheKey =
-            state.searchQuery.trim().toLowerCase() || "__all__blogs__";
-          const page = state.pagination.page;
-
-          const isFromCache =
-            !!state.blogsCache?.[cacheKey]?.[page] &&
-            !!state.paginationCache?.[cacheKey]?.[page];
-
-          const exists = state.activeBlogs.some(
-            (blog) => blog._id === newBlog._id
-          );
-
-          return isFromCache && !exists
-            ? {
-                activeBlogs: [newBlog, ...state.activeBlogs],
-              }
-            : {};
-        });
+        get()._addBlogToCacheAndActive(newBlog);
 
         updateState(set, "create", {
           loading: false,
@@ -77,15 +115,13 @@ const useBlogStore = create((set, get) => ({
         error: true,
         success: false,
       });
-
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
   },
 
   getBlogsHandler: async ({ page = 1, limit = 10, search = "" } = {}) => {
     const cacheKey = search.trim().toLowerCase() || CACHE_KEY_ALL;
-    const blogsCache = get().blogsCache;
-    const paginationCache = get().paginationCache;
+    const { blogsCache, paginationCache } = get();
 
     const cachedBlogs = blogsCache?.[cacheKey]?.[page] || null;
     const cachedPagination = paginationCache?.[cacheKey]?.[page] || null;
@@ -152,22 +188,77 @@ const useBlogStore = create((set, get) => ({
     updateState(set, "delete", { loading: true, error: false, success: false });
     try {
       const res = await apiInstance.delete(`/blog/${id}`);
-      if (res.status === 200) {
-        set((state) => {
-          const newBlogsCache = {};
-          for (const [searchKey, pages] of Object.entries(state.blogsCache)) {
-            newBlogsCache[searchKey] = {};
-            for (const [pageNum, blogs] of Object.entries(pages)) {
-              newBlogsCache[searchKey][pageNum] = blogs.filter(
-                (blog) => blog._id !== id
-              );
-            }
-          }
 
-          return {
-            blogsCache: newBlogsCache,
-            activeBlogs: state.activeBlogs.filter((b) => b._id !== id),
-          };
+      if (res.status === 200) {
+        const {
+          pagination,
+          activeBlogs,
+          blogsCache,
+          paginationCache,
+          searchQuery,
+        } = get();
+
+        // 1. Remove deleted blog from all cached pages in blogsCache
+        const newBlogsCache = {};
+        for (const [searchKey, pages] of Object.entries(blogsCache)) {
+          newBlogsCache[searchKey] = {};
+          for (const [pageNum, blogs] of Object.entries(pages)) {
+            newBlogsCache[searchKey][pageNum] = blogs.filter(
+              (blog) => blog._id !== id
+            );
+          }
+        }
+
+        // 2. Remove the blog from current activeBlogs page
+        const updatedActiveBlogs = activeBlogs.filter((b) => b._id !== id);
+
+        // 3. Calculate new total and totalPages
+        const newTotal = Math.max(0, pagination.total - 1);
+        const newTotalPages = Math.max(
+          1,
+          Math.ceil(newTotal / pagination.limit)
+        );
+
+        // 4. Adjust current page if updatedActiveBlogs is empty and page > 1
+        let newPage = pagination.page;
+        if (updatedActiveBlogs.length === 0 && newPage > 1) {
+          newPage = newPage - 1;
+        }
+
+        // 5. Update paginationCache for current searchQuery and newPage
+        const newPaginationCache = { ...paginationCache };
+
+        if (!newPaginationCache[searchQuery]) {
+          newPaginationCache[searchQuery] = {};
+        }
+
+        // Update pagination info for the newPage, which might be different if page changed
+        newPaginationCache[searchQuery][newPage] = {
+          ...pagination,
+          total: newTotal,
+          totalPages: newTotalPages,
+          page: newPage,
+        };
+
+        // 6. Update activeBlogs for the possibly new page from blogsCache (if exists)
+        // Because if page changed, activeBlogs must reflect that page's data
+        // Otherwise, keep updatedActiveBlogs if page didn't change
+
+        // Try to get cached blogs for newPage & current searchQuery
+        const newPageBlogs =
+          newBlogsCache[searchQuery]?.[newPage] || updatedActiveBlogs;
+
+        // 7. Finally, update the state with new caches and pagination & activeBlogs
+        set({
+          blogsCache: newBlogsCache,
+          paginationCache: newPaginationCache,
+          pagination: {
+            ...pagination,
+            total: newTotal,
+            totalPages: newTotalPages,
+            page: newPage,
+          },
+          activeBlogs: newPageBlogs,
         });
 
         updateState(set, "delete", {
@@ -175,6 +266,7 @@ const useBlogStore = create((set, get) => ({
           error: false,
           success: true,
         });
+
         toast.success(res.data.message || "Blog deleted successfully");
       }
     } catch (error) {
