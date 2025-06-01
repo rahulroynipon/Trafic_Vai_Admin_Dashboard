@@ -92,29 +92,30 @@ function ManagerAvatarSection() {
         ) : null}
       </div>
 
-      {/* avatar update */}
-      <Modal title="Update Avatar" isOpen={isOpen} onClose={onClose}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {() => (
-            <Form className="space-y-4 mt-5">
-              <ImageInputField name="avatar" />
+      {hasPermission(permessions.manager) ? (
+        <Modal title="Update Avatar" isOpen={isOpen} onClose={onClose}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {() => (
+              <Form className="space-y-4 mt-5">
+                <ImageInputField name="avatar" />
 
-              <Button
-                type="submit"
-                className="w-full"
-                isLoading={isLoading.avatar}
-                disabled={isLoading.avatar}
-              >
-                Update
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Modal>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  isLoading={isLoading.avatar}
+                  disabled={isLoading.avatar}
+                >
+                  Update
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Modal>
+      ) : null}
     </>
   );
 }

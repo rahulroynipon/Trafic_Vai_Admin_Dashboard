@@ -49,9 +49,9 @@ function ManagerInfoSection() {
           {isLoading.profileGet ? (
             <Skeleton className="h-8 max-w-48" />
           ) : (
-            <h1 className="text-xl font-semibold text-content-200">
+            <h2 className="text-xl font-semibold text-content-200">
               Basic Information
-            </h1>
+            </h2>
           )}
 
           {hasPermission(permessions.manager) ? (
@@ -76,7 +76,7 @@ function ManagerInfoSection() {
                   </li>
                 ))}
               </ul>
-            ) : isEdit ? (
+            ) : isEdit && hasPermission(permessions.manager) ? (
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}

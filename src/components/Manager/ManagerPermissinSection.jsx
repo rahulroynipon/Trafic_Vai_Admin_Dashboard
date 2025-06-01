@@ -75,7 +75,7 @@ function ManagerPermissinSection() {
                 </li>
               ))}
             </ul>
-          ) : isEdit ? (
+          ) : isEdit && hasPermission(permessions.manager) ? (
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
