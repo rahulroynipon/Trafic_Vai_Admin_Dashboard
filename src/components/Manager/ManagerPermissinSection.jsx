@@ -32,7 +32,6 @@ function ManagerPermissinSection() {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
     if (isLoading.permissions) return;
     updateManagerProfileHandler("permissions", id, values);
   };
