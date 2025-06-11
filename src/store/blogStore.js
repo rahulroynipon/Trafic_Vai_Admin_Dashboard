@@ -309,7 +309,13 @@ const useBlogStore = create((set, get) => ({
   updateBlogHandler: async (update, id, data) => {
     updateState(set, update, { loading: true, error: false, success: false });
     try {
-      const res = await apiInstance.patch(`/blog/${id}`, data);
+      const res = await apiInstance.patch(
+        `/blog/${id}?update=${update}`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       const updatedBlog = res?.data?.payload;
 
       if (res.status === 200 && updatedBlog) {
