@@ -173,8 +173,6 @@ const useManagerStore = create((set, get) => ({
     }
   },
 
-  profile: {},
-
   getManagerProfileHandler: async (id) => {
     updateState(set, "profileGet", {
       loading: true,

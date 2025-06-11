@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useBlogStore from "../../store/blogStore";
 import useAuthStore from "../../store/authStore";
 import { permessions } from "../../data/Permissions";
@@ -12,11 +12,12 @@ import Dropdown from "../ui/Dropdown";
 import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
 import { cn } from "../../lib/utils";
+import useOptionStore from "../../store/optionStore";
 
 function BlogDetailSection() {
   const { blog, isLoading } = useBlogStore();
   const { hasPermission } = useAuthStore();
-  const { services } = useAuthStore();
+  const { services } = useOptionStore();
 
   const [isEdit, setIsEdit] = useState(false);
   const handleEdit = () => setIsEdit(true);
@@ -50,7 +51,101 @@ function BlogDetailSection() {
           </p>
         </>
       ) : isEdit && hasPermission(permessions.blog) ? (
-        <>Edit section</>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, setFieldValue, errors, touched }) => (
+            <Form className="space-y-4">
+              <h2 className="text-xl font-semibold text-content-200">
+                Update Blog
+              </h2>
+
+              <InputField
+                name="title"
+                label="Title"
+                required
+                placeholder="Enter a compelling title for your blog post"
+              />
+
+              {/* dropdown menu start */}
+              <div className="w-full">
+                <label
+                  htmlFor="service"
+                  className="font-medium mb-1 text-sm text-content-400 block"
+                >
+                  Service<span className="text-red-500">*</span>
+                </label>
+
+                <Dropdown
+                  id="service"
+                  name="service"
+                  className={cn(
+                    touched.service &&
+                      errors.service &&
+                      "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                  )}
+                  value={
+                    services.find((s) => s.value === values.service)?.label
+                  }
+                  onChange={(item) => setFieldValue("service", item?.value)}
+                  renderOption={({ select }) => (
+                    <ul className="max-h-60 overflow-y-auto">
+                      {services?.map((service) => (
+                        <li
+                          key={service?.value}
+                          onClick={() => select(service)}
+                          className="flex items-center justify-between gap-3 py-2 px-3 hover:bg-base-300 cursor-pointer transition-colors duration-150"
+                        >
+                          <span>{service?.label}</span>
+                          {service?.value === values.service && (
+                            <GiCheckMark className="text-primary" />
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                />
+
+                <ErrorMessage
+                  name="service"
+                  component="div"
+                  className="text-red-700 text-sm mt-1.5"
+                />
+              </div>
+
+              {/* dropdown menu end */}
+
+              <TextAreaField
+                name="description"
+                label="Blog Description"
+                placeholder="Write a brief and engaging description for your blog post..."
+                rows={12}
+                required
+              />
+
+              <div className="flex gap-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  className="mt-2.5"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  type="submit"
+                  className="mt-2.5"
+                  disabled={isLoading.info}
+                  isLoading={isLoading.info}
+                >
+                  Save
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       ) : (
         // view section
         <>
@@ -78,70 +173,3 @@ function BlogDetailSection() {
 }
 
 export default BlogDetailSection;
-
-// {!isEdit && hasPermission(permessions.blog) ? (
-//       <div>
-//         <h2 className="text-xl font-semibold text-content-200">
-//           Update Blog
-//         </h2>
-
-//         <Formik
-//           initialValues={initialValues}
-//           validationSchema={validationSchema}
-//           onSubmit={handleSubmit}
-//         >
-//           {({ resetForm, values, setFieldValue, errors, touched }) => (
-//             <Form className="space-y-4">
-//               <InputField
-//                 name="title"
-//                 label="Title"
-//                 required
-//                 placeholder="Enter a compelling title for your blog post"
-//               />
-//               <TextAreaField
-//                 name="description"
-//                 label="Blog Description"
-//                 placeholder="Write a brief and engaging description for your blog post..."
-//                 rows={12}
-//                 required
-//               />
-//             </Form>
-//           )}
-//         </Formik>
-//       </div>
-//     ) : (
-//       <div>
-//         <div className="flex justify-between items-start gap-3">
-//           {isLoading.getSingle ? (
-//             <Skeleton className="h-8 w-full max-w-md mb-3.5" />
-//           ) : (
-//             <h2 className="text-content-200 text-lg md:text-xl lg:text-2xl font-semibold mb-3.5">
-//               {blog?.title}
-//             </h2>
-//           )}
-
-//           {hasPermission(permessions.blog) &&
-//             (isLoading.getSingle ? (
-//               <Skeleton className="size-8 rounded-full" />
-//             ) : (
-//               <Button
-//                 onClick={handleEdit}
-//                 variant="icon"
-//                 className="size-10 relative -top-1"
-//               >
-//                 <MdEditSquare className="text-2xl" />
-//               </Button>
-//             ))}
-//         </div>
-
-//         {isLoading.getSingle ? (
-//           Array.from({ length: 8 }).map((_, idx) => (
-//             <Skeleton key={idx} className="h-4 mb-2 w-full" />
-//           ))
-//         ) : (
-//           <p className="text-content-300 whitespace-pre-line">
-//             {blog?.description}
-//           </p>
-//         )}
-//       </div>
-//     )}

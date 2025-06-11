@@ -305,8 +305,8 @@ const useBlogStore = create((set, get) => ({
     }
   },
 
-  updateBlogHandler: async (id, data) => {
-    updateState(set, "update", { loading: true, error: false, success: false });
+  updateBlogHandler: async (update, id, data) => {
+    updateState(set, update, { loading: true, error: false, success: false });
     try {
       const res = await apiInstance.patch(`/blog/${id}`, data);
       const updatedBlog = res?.data?.payload;
@@ -330,7 +330,7 @@ const useBlogStore = create((set, get) => ({
           ),
         }));
 
-        updateState(set, "update", {
+        updateState(set, update, {
           loading: false,
           error: false,
           success: true,
@@ -340,7 +340,7 @@ const useBlogStore = create((set, get) => ({
         throw new Error("Unexpected server response");
       }
     } catch (error) {
-      updateState(set, "update", {
+      updateState(set, update, {
         loading: false,
         error: true,
         success: false,
