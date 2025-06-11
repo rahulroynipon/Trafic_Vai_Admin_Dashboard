@@ -36,9 +36,7 @@ function ManagerAvatarSection() {
   };
 
   useEffect(() => {
-    if (isSuccess.avatar) {
-      onClose();
-    }
+    if (isSuccess.avatar) onClose();
   }, [isSuccess]);
 
   return (

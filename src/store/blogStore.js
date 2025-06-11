@@ -7,8 +7,9 @@ const initialState = {
   create: false,
   get: false,
   delete: false,
-  update: false,
   getSingle: false,
+  thumbnail: false,
+  details: false,
 };
 
 const CACHE_KEY_ALL = "__all__blogs__";
