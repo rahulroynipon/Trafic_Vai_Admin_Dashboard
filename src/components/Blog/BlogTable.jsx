@@ -59,6 +59,9 @@ function BlogTable() {
       <td className="p-4 text-nowrap">{blog._id}</td>
       <td className="p-4 text-nowrap max-w-[15rem] truncate">{blog.title}</td>
       <td className="p-4 text-nowrap max-w-[15rem] truncate">
+        {blog.service?.name}
+      </td>
+      <td className="p-4 text-nowrap max-w-[15rem] truncate">
         {blog.description}
       </td>
       <td className="p-4 text-nowrap">
@@ -94,7 +97,14 @@ function BlogTable() {
   return (
     <>
       <Table
-        headers={["Blog ID", "Title", "Description", "Date", "Action"]}
+        headers={[
+          "Blog ID",
+          "Title",
+          "Service",
+          "Description",
+          "Date",
+          "Action",
+        ]}
         data={blogs}
         renderRow={renderRow}
         pagination={pagination}

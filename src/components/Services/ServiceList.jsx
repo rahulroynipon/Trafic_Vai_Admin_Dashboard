@@ -17,6 +17,7 @@ function ServiceList() {
             <Link
               key={service?._id}
               to={`/services/${service?.slug}`}
+              title={service?.name}
               className="border border-primary rounded-lg p-5 flex flex-col items-center gap-5 
                 hover:bg-primary/10 transition-colors duration-300 cursor-pointer 
                 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"
