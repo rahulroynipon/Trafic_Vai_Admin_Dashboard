@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useBlogStore from "../../store/blogStore";
 import useAuthStore from "../../store/authStore";
 import { permessions } from "../../data/Permissions";
@@ -13,9 +13,11 @@ import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
 import { cn } from "../../lib/utils";
 import useOptionStore from "../../store/optionStore";
+import { useParams } from "react-router";
 
 function BlogDetailSection() {
-  const { blog, isLoading } = useBlogStore();
+  const { id } = useParams();
+  const { blog, isLoading, updateBlogHandler, isSuccess } = useBlogStore();
   const { hasPermission } = useAuthStore();
   const { services } = useOptionStore();
 
@@ -30,8 +32,13 @@ function BlogDetailSection() {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
+    if (isLoading.details) return;
+    updateBlogHandler("details", id, values);
   };
+
+  useEffect(() => {
+    if (isSuccess.details) handleClose();
+  }, [isSuccess]);
 
   return (
     <div className="p-5 bg-base-100 shadow-sm">

@@ -76,6 +76,7 @@ function BlogThumbnailSection() {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
+            onSubmit={handleSubmit}
           >
             {() => (
               <Form className="space-y-4 mt-5">
