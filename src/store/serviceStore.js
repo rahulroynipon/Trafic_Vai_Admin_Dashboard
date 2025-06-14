@@ -38,10 +38,10 @@ const useServiceStore = create((set) => ({
     }
   },
 
-  getSubServicesHandler: async (slug) => {
+  getSubServicesHandler: async (id) => {
     updateState(set, "getSub", { loading: true, error: false, success: false });
     try {
-      const res = await apiInstance.get(`/service/${slug}`);
+      const res = await apiInstance.get(`/service/${id}`);
       if (res.status === 200) {
         set({ subservices: res.data?.payload });
         updateState(set, "getSub", {

@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router";
+import { useParams } from "react-router";
 import SubserviceList from "../components/Services/SubserviceList";
 import useServiceStore from "../store/serviceStore";
 import { useEffect } from "react";
@@ -7,40 +7,32 @@ import { FiPlus } from "react-icons/fi";
 import useAuthStore from "../store/authStore";
 import { permessions } from "../data/Permissions";
 import { TableHeader } from "../components/ui/Table";
+import Skeleton from "../components/ui/Skeleton";
 
 function Subservice() {
-  const { slug } = useParams();
+  const { id } = useParams();
 
   const { hasPermission } = useAuthStore();
-  const { getSubServicesHandler, subservices } = useServiceStore();
+  const { getSubServicesHandler, subservices, isLoading } = useServiceStore();
 
   useEffect(() => {
-    getSubServicesHandler(slug);
-  }, [slug]);
-
-  const slugToSentence = (slug) => {
-    const sentence = slug.replace(/-/g, " ");
-    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
-  };
+    getSubServicesHandler(id);
+  }, [id]);
 
   return (
     <>
-      <TableHeader
-        bgColor="bg-base-200 shadow-none p-2 sticky top-0 z-10"
-        title={`${slugToSentence(slug)} Service (${subservices.length})`}
-        children={
-          hasPermission(permessions.subservice) ? (
-            <div>
-              <Link to={`/services/${slug}/create`}>
-                <Button className="flex items-center space-x-1.5">
-                  <FiPlus />
-                  <span>Add Sub-Service</span>
-                </Button>
-              </Link>
-            </div>
-          ) : null
-        }
-      />
+      {isLoading.getSub ? (
+        <div className="p-2 w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
+          <Skeleton className="h-8 max-w-96 rounded-lg" />
+        </div>
+      ) : (
+        <div className="p-2 w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
+          <h1 className="text-2xl font-semibold text-content-200">
+            <span>{subservices?.service?.name}</span> Service{" "}
+            <span>({subservices?.subservices?.length})</span>
+          </h1>
+        </div>
+      )}
 
       <SubserviceList />
     </>

@@ -10,7 +10,10 @@ function SubserviceList() {
         Array(6)
           .fill(0)
           .map((_, i) => (
-            <Skeleton key={i} className="h-40 max-w-full rounded-lg" />
+            <Skeleton
+              key={i}
+              className="h-40 max-w-full rounded-lg space-y-1"
+            />
           ))
       ) : subservices.length ? (
         subservices.map((subservice) => (

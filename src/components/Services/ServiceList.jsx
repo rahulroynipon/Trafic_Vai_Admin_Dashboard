@@ -16,7 +16,7 @@ function ServiceList() {
         : services.map((service) => (
             <Link
               key={service?._id}
-              to={`/services/${service?.slug}`}
+              to={`/services/${service?._id}`}
               title={service?.name}
               className="border border-primary rounded-lg p-5 flex flex-col items-center gap-5 
                 hover:bg-primary/10 transition-colors duration-300 cursor-pointer 
