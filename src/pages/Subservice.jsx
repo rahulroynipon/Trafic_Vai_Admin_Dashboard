@@ -22,8 +22,11 @@ function Subservice() {
   return (
     <>
       {isLoading.getSub ? (
-        <div className="p-2 w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
-          <Skeleton className="h-8 max-w-96 rounded-lg" />
+        <div className="p-2 w-full flex flex-wrap items-center justify-between gap-3">
+          <Skeleton className="h-8 max-w-96" />
+          {hasPermission(permessions.subservice) ? (
+            <Skeleton className="h-8" />
+          ) : null}
         </div>
       ) : (
         <div className="p-2 w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
@@ -31,6 +34,8 @@ function Subservice() {
             <span>{subservices?.service?.name}</span> Service{" "}
             <span>({subservices?.subservices?.length})</span>
           </h1>
+
+          {hasPermission(permessions.subservice) ? <div>Add</div> : null}
         </div>
       )}
 
