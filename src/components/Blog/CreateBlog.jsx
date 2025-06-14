@@ -10,6 +10,7 @@ import Dropdown from "../ui/Dropdown";
 import useOptionStore from "../../store/optionStore";
 import { GiCheckMark } from "react-icons/gi";
 import { cn } from "../../lib/utils";
+import { useNavigate } from "react-router";
 
 function CreateBlog() {
   const initialValues = {
@@ -19,8 +20,9 @@ function CreateBlog() {
     service: "",
   };
 
+  const navigate = useNavigate();
   const { services } = useOptionStore();
-  const { createBlogHandler, isLoading, isSuccess } = useBlogStore();
+  const { createBlogHandler, isLoading, isSuccess, blog } = useBlogStore();
   const formikRef = useRef(null);
 
   const handleSubmit = (values, { resetForm }) => {
@@ -31,6 +33,7 @@ function CreateBlog() {
   useEffect(() => {
     if (isSuccess.create && formikRef.current) {
       formikRef.current.resetForm();
+      // navigate(`/blogs/${blog?._id}`);
     }
   }, [isSuccess]);
 

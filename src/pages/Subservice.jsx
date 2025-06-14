@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import SubserviceList from "../components/Services/SubserviceList";
 import useServiceStore from "../store/serviceStore";
 import { useEffect } from "react";
@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import { FiPlus } from "react-icons/fi";
 import useAuthStore from "../store/authStore";
 import { permessions } from "../data/Permissions";
+import { TableHeader } from "../components/ui/Table";
 
 function Subservice() {
   const { slug } = useParams();
@@ -24,22 +25,23 @@ function Subservice() {
 
   return (
     <>
-      <div className="pb-4 z-10 bg-base-200 sticky top-0">
-        <div className="flex gap-4 justify-between items-center">
-          <h1 className="text-2xl font-semibold text-content-200 capitalize">
-            {slugToSentence(slug)} Service ({subservices.length})
-          </h1>
-
-          {hasPermission(permessions.subservice) ? (
+      <TableHeader
+        bgColor="bg-base-200 shadow-none p-2 sticky top-0 z-10"
+        title={`${slugToSentence(slug)} Service (${subservices.length})`}
+        children={
+          hasPermission(permessions.subservice) ? (
             <div>
-              <Button className="flex items-center space-x-1.5">
-                <FiPlus />
-                <span>Add Sub-Service</span>
-              </Button>
+              <Link to={`/services/${slug}/create`}>
+                <Button className="flex items-center space-x-1.5">
+                  <FiPlus />
+                  <span>Add Sub-Service</span>
+                </Button>
+              </Link>
             </div>
-          ) : null}
-        </div>
-      </div>
+          ) : null
+        }
+      />
+
       <SubserviceList />
     </>
   );

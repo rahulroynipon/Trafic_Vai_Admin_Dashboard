@@ -8,10 +8,13 @@ import useOptionStore from "../store/optionStore";
 
 function BlogView() {
   const { id } = useParams();
-  const { getBlogHandler, isError } = useBlogStore();
+  const { getBlogHandler, isError, blog } = useBlogStore();
   const { getServicesHandler, services } = useOptionStore();
 
+  
+
   useEffect(() => {
+    if (blog?._id === id) return;
     getBlogHandler(id);
   }, [id]);
 

@@ -108,6 +108,8 @@ const useBlogStore = create((set, get) => ({
           success: true,
         });
 
+        set({ blog: newBlog });
+
         toast.success(res.data.message || "Blog created successfully");
       }
     } catch (error) {

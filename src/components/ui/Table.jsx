@@ -6,6 +6,7 @@ import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
 } from "react-icons/md";
+import { cn } from "../../lib/utils";
 
 const Table = ({
   headers = [],
@@ -86,11 +87,21 @@ const Table = ({
   );
 };
 
-const TableHeader = ({ title = "Title", children, className = "" }) => {
+const TableHeader = ({
+  title = "Title",
+  children,
+  className = "",
+  bgColor = "bg-base-100",
+}) => {
   return (
-    <div className="bg-base-100 p-4 shadow-sm w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
+    <div
+      className={cn(
+        "p-4 shadow-sm w-full flex flex-wrap items-center justify-between space-x-3 space-y-2",
+        bgColor
+      )}
+    >
       <h1 className="text-2xl font-semibold text-content-200">{title}</h1>
-      <div className={className}>{children}</div>
+      {children ? <div className={className}>{children}</div> : null}
     </div>
   );
 };
