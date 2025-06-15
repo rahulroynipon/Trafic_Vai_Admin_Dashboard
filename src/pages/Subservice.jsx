@@ -8,6 +8,7 @@ import useAuthStore from "../store/authStore";
 import { permessions } from "../data/Permissions";
 import { TableHeader } from "../components/ui/Table";
 import Skeleton from "../components/ui/Skeleton";
+import CreateSubservice from "../components/Services/CreateSubservice";
 
 function Subservice() {
   const { id } = useParams();
@@ -29,13 +30,13 @@ function Subservice() {
           ) : null}
         </div>
       ) : (
-        <div className="p-2 w-full flex flex-wrap items-center justify-between space-x-3 space-y-2">
+        <div className="p-2 w-full flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-semibold text-content-200">
             <span>{subservices?.service?.name}</span> Service{" "}
             <span>({subservices?.subservices?.length})</span>
           </h1>
 
-          {hasPermission(permessions.subservice) ? <div>Add</div> : null}
+          {hasPermission(permessions.subservice) ? <CreateSubservice /> : null}
         </div>
       )}
 

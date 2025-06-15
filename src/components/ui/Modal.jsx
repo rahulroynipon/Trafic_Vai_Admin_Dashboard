@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Overlay from "./Overlay";
 import { IoCloseSharp } from "react-icons/io5";
+import { cn } from "../../lib/utils";
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.95, y: -50 },
@@ -8,7 +9,13 @@ const modalVariants = {
   exit: { opacity: 0, scale: 0.95, y: 50 },
 };
 
-export default function Modal({ children, onClose, isOpen, title = "" }) {
+export default function Modal({
+  children,
+  onClose,
+  isOpen,
+  title = "",
+  className,
+}) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -23,7 +30,10 @@ export default function Modal({ children, onClose, isOpen, title = "" }) {
           <motion.div
             variants={modalVariants}
             transition={{ duration: 0.2 }}
-            className="relative z-10 bg-white p-5 rounded shadow-lg min-w-xs max-w-[30rem] w-full m-4"
+            className={cn(
+              "relative z-10 bg-white p-5 rounded shadow-lg min-w-xs max-w-[30rem] overflow-auto w-full m-4",
+              className
+            )}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
