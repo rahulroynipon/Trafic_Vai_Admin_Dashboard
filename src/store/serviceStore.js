@@ -7,11 +7,13 @@ const initialState = {
   get: false,
   getSub: false,
   createSub: false,
+  singleSub: false,
 };
 
 const useServiceStore = create((set) => ({
   services: [],
   subservices: [],
+  subservice: null,
   isLoading: { ...initialState },
   isSuccess: { ...initialState },
   isError: { ...initialState },
@@ -67,20 +69,19 @@ const useServiceStore = create((set) => ({
       success: false,
     });
     try {
-      const res = await apiInstance.post("/service", data, {
+      const res = await apiInstance.post("/subservice", data, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
+
       if (res.status === 201) {
         updateState(set, "createSub", {
           loading: false,
           error: false,
           success: true,
         });
-        set((state) => ({
-          subservices: [...state.subservices, res.data.payload],
-        }));
+        set({ subservice: res.data.payload });
         toast.success(res.data.message || "Subservice created successfully");
       }
     } catch (error) {

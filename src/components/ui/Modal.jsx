@@ -25,7 +25,7 @@ export default function Modal({
           animate="visible"
           exit="exit"
         >
-          <Overlay isOpen={true} onClose={onClose} className="z-0" />
+          <Overlay isOpen={true} className="z-0" />
 
           <motion.div
             variants={modalVariants}

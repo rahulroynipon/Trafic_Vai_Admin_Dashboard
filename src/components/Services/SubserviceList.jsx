@@ -15,8 +15,8 @@ function SubserviceList() {
               className="h-40 max-w-full rounded-lg space-y-1"
             />
           ))
-      ) : subservices.length ? (
-        subservices.map((subservice) => (
+      ) : subservices?.subservices?.length ? (
+        subservices?.subservices?.map((subservice) => (
           <div
             key={subservice?._id}
             className="border border-primary rounded-lg p-5 space-y-1

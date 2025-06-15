@@ -67,16 +67,13 @@ function CreateSubservice() {
   };
 
   const submitHandler = (values) => {
-    if(isLoading.createSub) return;
-    createSubServiceHandler(values)
+    if (isLoading.createSub) return;
+    createSubServiceHandler(values);
   };
 
-  useEffect(()=>{
-    if(isSuccess.createSub) 
-      closeHandler();
-  },[isSuccess])
-
-
+  useEffect(() => {
+    if (isSuccess.createSub) closeHandler();
+  }, [isSuccess]);
 
   return (
     <>
@@ -237,7 +234,7 @@ function CreateSubservice() {
                             <label className="block font-medium text-sm">
                               Features
                             </label>
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 max-h-[6rem] overflow-y-auto">
                               {values.plans[currentPlanIndex].features.map(
                                 (_, i) => (
                                   <li key={i} className="flex gap-2">
@@ -274,7 +271,7 @@ function CreateSubservice() {
                     {values.type === "subscription" && (
                       <FieldArray name={`plans.${currentPlanIndex}.tableRows`}>
                         {({ remove, push }) => (
-                          <div className="space-y-2">
+                          <div className="space-y-2 max-h-[6rem] overflow-y-auto">
                             <label className="block font-medium text-sm">
                               Table Rows
                             </label>
