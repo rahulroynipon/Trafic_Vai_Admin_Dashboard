@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Formik, Form, Field, FieldArray, getIn } from "formik";
 import Button from "../ui/Button";
@@ -8,6 +8,7 @@ import TextAreaField from "../ui/TextAreaField";
 import ImageDropzone from "../ui/ImageDropzone";
 import { IoCloseOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
+import useServiceStore from "./../../store/serviceStore";
 import {
   subserviceSchema,
   typeSchema,
@@ -21,6 +22,7 @@ function CreateSubservice() {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [currentPlanIndex, setCurrentPlanIndex] = useState(0);
+  const { createSubServiceHandler, isLoading, isSuccess } = useServiceStore();
 
   const initialValues = {
     name: "",
@@ -65,8 +67,16 @@ function CreateSubservice() {
   };
 
   const submitHandler = (values) => {
-    console.log("✅ Final Form Values:", values);
+    if(isLoading.createSub) return;
+    createSubServiceHandler(values)
   };
+
+  useEffect(()=>{
+    if(isSuccess.createSub) 
+      closeHandler();
+  },[isSuccess])
+
+
 
   return (
     <>

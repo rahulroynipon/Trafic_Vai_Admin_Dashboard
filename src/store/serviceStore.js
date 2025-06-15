@@ -59,6 +59,39 @@ const useServiceStore = create((set) => ({
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
   },
+
+  createSubServiceHandler: async (data) => {
+    updateState(set, "createSub", {
+      loading: true,
+      error: false,
+      success: false,
+    });
+    try {
+      const res = await apiInstance.post("/service", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 201) {
+        updateState(set, "createSub", {
+          loading: false,
+          error: false,
+          success: true,
+        });
+        set((state) => ({
+          subservices: [...state.subservices, res.data.payload],
+        }));
+        toast.success(res.data.message || "Subservice created successfully");
+      }
+    } catch (error) {
+      updateState(set, "createSub", {
+        loading: false,
+        error: true,
+        success: false,
+      });
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  },
 }));
 
 export default useServiceStore;
