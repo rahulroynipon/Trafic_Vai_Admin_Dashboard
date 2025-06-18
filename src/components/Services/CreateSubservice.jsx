@@ -387,7 +387,12 @@ function CreateSubservice() {
                       Next
                     </Button>
                   ) : (
-                    <Button type="submit" className="flex-1">
+                    <Button
+                      type="submit"
+                      disabled={isLoading.createSub}
+                      isLoading={isLoading.createSub}
+                      className="flex-1"
+                    >
                       Submit
                     </Button>
                   )}

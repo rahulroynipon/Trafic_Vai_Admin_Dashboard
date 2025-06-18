@@ -25,8 +25,8 @@ function SubserviceList() {
             title={subservice?.name}
           >
             <h2 className="font-semibold text-lg mb-2">{subservice?.name}</h2>
-            <p>Total Order: {subservice?.totalOrder}</p>
-            <p>Completed Orders: {subservice?.totalCompletedOrder}</p>
+            <p>Total Order: {subservice?.totalOrder || 0}</p>
+            <p>Completed Orders: {subservice?.totalCompletedOrder || 0}</p>
           </div>
         ))
       ) : (

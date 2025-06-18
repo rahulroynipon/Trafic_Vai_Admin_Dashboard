@@ -31,7 +31,7 @@ function ServiceList() {
               </div>
               <div className="text-center space-y-1">
                 <h2 className="font-semibold text-lg mb-2">{service?.name}</h2>
-                <p>Service: {service?.totalSubService} Category</p>
+                <p>Service Category: {service?.totalSubService}</p>
                 <p>Total Order: {service?.totalOrder}</p>
                 <p>Completed Order: {service?.totalCompletedOrder}</p>
               </div>

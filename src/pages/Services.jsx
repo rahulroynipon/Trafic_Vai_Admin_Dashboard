@@ -7,7 +7,6 @@ function Services() {
   const { services, getServicesHandler } = useServiceStore();
 
   useEffect(() => {
-    if (services.length) return;
     getServicesHandler();
   }, []);
 
