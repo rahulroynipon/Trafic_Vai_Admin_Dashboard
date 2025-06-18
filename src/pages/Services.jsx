@@ -4,7 +4,7 @@ import useServiceStore from "../store/serviceStore";
 import { TableHeader } from "../components/ui/Table";
 
 function Services() {
-  const { services, getServicesHandler } = useServiceStore();
+  const { getServicesHandler } = useServiceStore();
 
   useEffect(() => {
     getServicesHandler();
