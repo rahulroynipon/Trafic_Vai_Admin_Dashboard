@@ -93,6 +93,33 @@ const useServiceStore = create((set) => ({
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
   },
+
+  getSingleSubServiceHandler: async (serviceId, id) => {
+    updateState(set, "singleSub", {
+      loading: true,
+      error: false,
+      success: false,
+    });
+
+    try {
+      const res = await apiInstance.get(`/subservice/${serviceId}/${id}`);
+      if (res.status === 200) {
+        set({ subservice: res.data?.payload });
+        updateState(set, "singleSub", {
+          loading: false,
+          error: false,
+          success: true,
+        });
+      }
+    } catch (error) {
+      updateState(set, "singleSub", {
+        loading: false,
+        error: true,
+        success: false,
+      });
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  },
 }));
 
 export default useServiceStore;
