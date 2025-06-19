@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.6",
+    "@tinymce/tinymce-react": "^6.2.1",
     "axios": "^1.9.0",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",

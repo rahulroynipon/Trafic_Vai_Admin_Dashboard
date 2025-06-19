@@ -14,6 +14,7 @@ import {
   typeSchema,
   dynamicPlanSchema,
 } from "../../schema/subservice.schema";
+import QuillField from "../ui/RichTextField";
 
 const plansList = ["Basic", "Pro", "Enterprise"];
 
@@ -164,7 +165,7 @@ function CreateSubservice() {
                       className="h-[10rem]"
                     />
                     <InputField name="name" label="Sub-Service Name" required />
-                    <TextAreaField
+                    <QuillField
                       name="description"
                       label="Description"
                       required
