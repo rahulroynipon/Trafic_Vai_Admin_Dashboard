@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import Modal from "../ui/Modal";
 import { Form, Formik } from "formik";
 import { managerAvatarSchema as validationSchema } from "../../schema/manager.schema";
-import ImageInputField from "./../ui/ImageInputField";
 import { useParams } from "react-router";
 import { permessions } from "../../data/Permissions";
 import useAuthStore from "../../store/authStore";
+import ImageDropzone from "./../ui/ImageDropzone";
 
 function ManagerAvatarSection() {
   const { id } = useParams();
@@ -99,7 +99,7 @@ function ManagerAvatarSection() {
           >
             {() => (
               <Form className="space-y-4 mt-5">
-                <ImageInputField name="avatar" />
+                <ImageDropzone name="avatar" className="h-[15rem]" />
 
                 <Button
                   type="submit"

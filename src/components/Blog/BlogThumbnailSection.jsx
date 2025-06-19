@@ -6,10 +6,10 @@ import { IoCamera } from "react-icons/io5";
 import useAuthStore from "./../../store/authStore";
 import { permessions } from "./../../data/Permissions";
 import Modal from "../ui/Modal";
-import ImageInputField from "../ui/ImageInputField";
 import { Form, Formik } from "formik";
 import { upadteThumbnail as validationSchema } from "../../schema/blog.schema";
 import { useParams } from "react-router";
+import ImageDropzone from "../ui/ImageDropzone";
 
 function BlogThumbnailSection() {
   const { id } = useParams();
@@ -80,7 +80,7 @@ function BlogThumbnailSection() {
           >
             {() => (
               <Form className="space-y-4 mt-5">
-                <ImageInputField name="thumbnail" />
+                <ImageDropzone name="thumbnail" className="h-[15rem]" />
                 <Button
                   type="submit"
                   className="w-full"
